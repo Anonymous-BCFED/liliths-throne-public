@@ -1434,6 +1434,28 @@ public abstract class GameCharacter implements XMLSaving {
 			}
 		}
 
+		/** HELPFUL INFO */
+		Element helpfulInfo = doc.createElement("helpfulInformation");
+		properties.appendChild(helpfulInfo);
+		{
+			Comment hiComment = doc.createComment("Added by HelpfulInfo mod.");
+			helpfulInfo.appendChild(hiComment);
+			XMLUtil.createXMLElementWithValue(doc, helpfulInfo, "race", String.valueOf(this.getSubspecies().getRace().getName(false)));
+			XMLUtil.createXMLElementWithValue(doc, helpfulInfo, "subspecies", String.valueOf(this.getSubspecies().getName(null)));
+			String ssn = "";
+			AbstractSubspecies subspecies = this.getSubspecies();
+			if(subspecies!=null) {
+				if (this.isFeminine()) {
+					ssn = subspecies.getSingularFemaleName(this.body);
+				} else {
+					ssn = subspecies.getSingularMaleName(this.body);
+				}
+				ssn = Util.capitaliseSentence(ssn);
+			}
+			XMLUtil.createXMLElementWithValue(doc, helpfulInfo, "fullSpeciesName", String.valueOf(ssn));
+			XMLUtil.createXMLElementWithValue(doc, helpfulInfo, "slaveValue", String.valueOf(this.getValueAsSlave(true)));
+		}
+
 		return properties;
 	}
 	

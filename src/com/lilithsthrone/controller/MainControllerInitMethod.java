@@ -1448,6 +1448,36 @@ public class MainControllerInitMethod {
 				for(FluidStored fluid : room.getFluidsStored()) {
 					fluidHandler(room, fluid);
 				}
+				/** MYSHIT */
+				id="_PUMP_LESS";
+				if (((EventTarget) MainController.document.getElementById(id)) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						MilkingRoom.INGESTION_AMOUNT = Math.max(100, MilkingRoom.INGESTION_AMOUNT-1000); 
+						Main.game.getTextEndStringBuilder().append("<p style='text-align:center;'>You set the flow-rate of the pumps to "+Units.fluid(MilkingRoom.INGESTION_AMOUNT)+"!</p>");
+						Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+					}, false);
+					
+					MainController.addEventListener(MainController.document, id, "mousemove", MainController.moveTooltipListener, false);
+					MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
+					TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Pump Less",
+							"Pump less.");
+					MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
+				}
+				/** MYSHIT */
+				id="_PUMP_MORE";
+				if (((EventTarget) MainController.document.getElementById(id)) != null) {
+					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
+						MilkingRoom.INGESTION_AMOUNT = Math.min(100000, MilkingRoom.INGESTION_AMOUNT+1000); 
+						Main.game.getTextEndStringBuilder().append("<p style='text-align:center;'>You set the flow-rate of the pumps to "+Units.fluid(MilkingRoom.INGESTION_AMOUNT)+"!</p>");
+						Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+					}, false);
+					
+					MainController.addEventListener(MainController.document, id, "mousemove", MainController.moveTooltipListener, false);
+					MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
+					TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Pump More",
+							"Pump more.");
+					MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
+				}
 			}
 			
 			

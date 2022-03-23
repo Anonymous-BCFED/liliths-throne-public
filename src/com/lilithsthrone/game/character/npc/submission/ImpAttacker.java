@@ -169,6 +169,18 @@ public class ImpAttacker extends NPC {
 	@Override
 	public void setStartingBody(boolean setPersona) {
 		// Not needed
+			
+		// MYSHIT: Give big balls if cum stud
+		if(this.getFetishDesire(com.lilithsthrone.game.character.fetishes.Fetish.FETISH_CUM_STUD).isPositive()) {
+			this.incrementPenisCumStorage(Util.random.nextInt(Math.round(((float)getLevel()/8f)*3786f)));
+			//this.setPenisCumStorage(3786); // 1gal
+			this.setPenisCumExpulsion(100);
+			this.setPenisCumProductionRegeneration(50000);
+			this.fillCumToMaxStorage();
+			this.setTesticleCount(4);
+			this.setTesticleSize(TesticleSize.FOUR_HUGE);
+		}
+		// END MYSHIT
 	}
 
 	@Override
@@ -392,7 +404,7 @@ public class ImpAttacker extends NPC {
 					new ItemEffect(itemType.getEnchantmentEffect(), TFModifier.TF_PENIS, TFModifier.TF_MOD_SIZE, TFPotency.MAJOR_BOOST, 1),
 					""));
 			}
-			if(target.getPenisRawCumStorageValue()<100) {
+			if(target.getPenisRawCumStorageValue()<500) { // MYSHIT
 				effects.add(new PossibleItemEffect(
 					new ItemEffect(itemType.getEnchantmentEffect(), TFModifier.TF_PENIS, TFModifier.TF_MOD_WETNESS, TFPotency.MAJOR_BOOST, 1),
 					"Yer gonna be cummin' all over the place!"));
@@ -425,7 +437,7 @@ public class ImpAttacker extends NPC {
 					new ItemEffect(itemType.getEnchantmentEffect(), TFModifier.TF_PENIS, TFModifier.TF_MOD_SIZE_SECONDARY, TFPotency.MAJOR_BOOST, 1),
 					"Let's get yer cock nice an' thick!"));
 			}
-			if(target.getPenisRawCumStorageValue()<250) {
+			if(target.getPenisRawCumStorageValue()<2500) { // MYSHIT
 				effects.add(new PossibleItemEffect(
 					new ItemEffect(itemType.getEnchantmentEffect(), TFModifier.TF_PENIS, TFModifier.TF_MOD_WETNESS, TFPotency.MAJOR_BOOST, 1),
 					"Ready ta be cummin' buckets fer us?"));
@@ -486,7 +498,7 @@ public class ImpAttacker extends NPC {
 					new ItemEffect(itemType.getEnchantmentEffect(), TFModifier.TF_PENIS, TFModifier.TF_MOD_SIZE_TERTIARY, TFPotency.MINOR_BOOST, 1),
 					""));
 			}
-			if(target.getPenisRawCumStorageValue()<250) {
+			if(target.getPenisRawCumStorageValue()<2500) { // MYSHIT
 				effects.add(new PossibleItemEffect(
 					new ItemEffect(itemType.getEnchantmentEffect(), TFModifier.TF_PENIS, TFModifier.TF_MOD_WETNESS, TFPotency.MAJOR_BOOST, 1),
 					"Ready ta be cummin' buckets fer us?"));

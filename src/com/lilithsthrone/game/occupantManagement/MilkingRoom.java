@@ -57,7 +57,7 @@ public class MilkingRoom implements XMLSaving {
 	
 	private static GameCharacter targetedCharacter = Main.game.getPlayer();
 	
-	public static final int INGESTION_AMOUNT = 100;
+	public static int INGESTION_AMOUNT = 100;
 
 	public static final int ARTISAN_MILKING_AMOUNT = 2000;
 	public static final int BASE_MILKING_AMOUNT = 2500;
@@ -411,7 +411,17 @@ public class MilkingRoom implements XMLSaving {
 		milkyMilknessSB.append(getFluidEntries(this.getMilkFluidsStored(), PresetColour.MILK, "Milk Stored"));
 		milkyMilknessSB.append(getFluidEntries(this.getCumFluidsStored(), PresetColour.CUM, "Cum Stored"));
 		milkyMilknessSB.append(getFluidEntries(this.getGirlcumFluidsStored(), PresetColour.GIRLCUM, "Girlcum Stored"));
-		
+		milkyMilknessSB.append("<div class='container-full-width' style='margin-bottom:2px; text-align:center;'><b style='color:"+PresetColour.EGG.toWebHexString()+";'>Amount</b>");
+		milkyMilknessSB.append("<div class='container-full-width' style='margin-top:2px; background:"+PresetColour.BACKGROUND_ALT.toWebHexString()+";'>");
+		milkyMilknessSB.append("<div class='container-full-width'>"+Units.fluid(MilkingRoom.INGESTION_AMOUNT)+"</div>");
+		milkyMilknessSB.append("<div class='container-full-width' style='content-align:center;width:15%'>");
+		milkyMilknessSB.append("<div id='_PUMP_LESS' class='square-button big'>"
+									+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrinkSmall()+"</div></div>");
+		milkyMilknessSB.append("<div id='_PUMP_MORE' class='square-button big'>"
+									+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrink()+"</div></div>");
+		milkyMilknessSB.append("</div>");
+		milkyMilknessSB.append("</div>");
+		milkyMilknessSB.append("</div>");
 		return milkyMilknessSB.toString();
 	}
 	
