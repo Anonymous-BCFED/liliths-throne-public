@@ -127,6 +127,18 @@ public class ImpAttacker extends NPC {
 
 			initHealthAndManaToMax();
 			this.addPersonalityTrait(PersonalityTrait.SLOVENLY);
+			
+			// MYSHIT: Give big balls if cum stud
+			if(this.getFetishDesire(com.lilithsthrone.game.character.fetishes.Fetish.FETISH_CUM_STUD).isPositive()) {
+				this.incrementPenisCumStorage(Util.random.nextInt(Math.round(((float)getLevel()/8f)*3786f)));
+				//this.setPenisCumStorage(3786); // 1gal
+				this.setPenisCumExpulsion(100);
+				this.setPenisCumProductionRegeneration(50000);
+				this.fillCumToMaxStorage();
+				this.setTesticleCount(4);
+				this.setTesticleSize(TesticleSize.FOUR_HUGE);
+			}
+			// END MYSHIT
 		}
 		
 		this.setEnslavementDialogue(SlaveDialogue.DEFAULT_ENSLAVEMENT_DIALOGUE, true);
@@ -169,18 +181,6 @@ public class ImpAttacker extends NPC {
 	@Override
 	public void setStartingBody(boolean setPersona) {
 		// Not needed
-			
-		// MYSHIT: Give big balls if cum stud
-		if(this.getFetishDesire(com.lilithsthrone.game.character.fetishes.Fetish.FETISH_CUM_STUD).isPositive()) {
-			this.incrementPenisCumStorage(Util.random.nextInt(Math.round(((float)getLevel()/8f)*3786f)));
-			//this.setPenisCumStorage(3786); // 1gal
-			this.setPenisCumExpulsion(100);
-			this.setPenisCumProductionRegeneration(50000);
-			this.fillCumToMaxStorage();
-			this.setTesticleCount(4);
-			this.setTesticleSize(TesticleSize.FOUR_HUGE);
-		}
-		// END MYSHIT
 	}
 
 	@Override
