@@ -4703,6 +4703,22 @@ public abstract class GameCharacter implements XMLSaving {
 		return count;
 	}
 
+	public String getSlaveNotes() {
+		return "";
+	}
+
+	public void setSlaveNotes(String input) {
+		//slave_notes = input;
+	}
+
+	public String getSlaveCategory() {
+		return "";
+	}
+
+	public void setSlaveCategory(String input) {
+		//slave_category = input;
+	}
+
 
 	// Affection:
 	/**

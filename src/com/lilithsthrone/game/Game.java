@@ -481,6 +481,9 @@ public class Game implements XMLSaving {
 		if (file.exists()) {
 			try {
 				Document doc = Main.getDocBuilder().parse(file);
+
+				// MODDING
+				//Mod
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();

@@ -336,10 +336,10 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		if(this.isSlave()) {
 			Element slaveSpecific = doc.createElement("slaveSpecific");
 			properties.appendChild(slaveSpecific);
+			XMLUtil.createXMLElementWithValue(doc, slaveSpecific, "value", String.valueOf(this.getValueAsSlave(true)));
 			if(this.slave_category != "") {
 				XMLUtil.createXMLElementWithValue(doc, slaveSpecific, "category", this.slave_category);
 			}
-			XMLUtil.createXMLElementWithValue(doc, slaveSpecific, "value", String.valueOf(this.getValueAsSlave(true)));
 			if(this.slave_notes != "") {
 				Element notes = doc.createElement("notes");
 				CDATASection cdata = doc.createCDATASection(this.slave_notes);
@@ -3547,6 +3547,26 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		} else { // Self-using:
 			return itemOwner.useItem(item, target, false);
 		}
+	}
+	
+	@Override
+	public String getSlaveNotes() {
+		return this.slave_notes;
+	}
+
+	@Override
+	public void setSlaveNotes(String input) {
+		this.slave_notes = input;
+	}
+
+	@Override
+	public String getSlaveCategory() {
+		return this.slave_category;
+	}
+
+	@Override
+	public void setSlaveCategory(String input) {
+		this.slave_category = input;
 	}
 
 }
