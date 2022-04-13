@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -134,9 +133,6 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	protected Gender genderPreference = null;
 	protected AbstractSubspecies subspeciesPreference = null;
 	protected RaceStage raceStagePreference = null;
-
-	public String slave_category = "";
-	public String slave_notes = "";
 	
 	protected NPC(boolean isImported,
 			NameTriplet nameTriplet,
@@ -332,21 +328,6 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 			XMLUtil.createXMLElementWithValue(doc, npcSpecific, "subspeciesPreference", Subspecies.getIdFromSubspecies(subspeciesPreference));
 			XMLUtil.createXMLElementWithValue(doc, npcSpecific, "raceStagePreference", String.valueOf(raceStagePreference));
 		}
-
-		if(this.isSlave()) {
-			Element slaveSpecific = doc.createElement("slaveSpecific");
-			properties.appendChild(slaveSpecific);
-			XMLUtil.createXMLElementWithValue(doc, slaveSpecific, "value", String.valueOf(this.getValueAsSlave(true)));
-			if(this.slave_category != "") {
-				XMLUtil.createXMLElementWithValue(doc, slaveSpecific, "category", this.slave_category);
-			}
-			if(this.slave_notes != "") {
-				Element notes = doc.createElement("notes");
-				CDATASection cdata = doc.createCDATASection(this.slave_notes);
-				notes.appendChild(cdata);
-				slaveSpecific.appendChild(notes);
-			}
-		}
 		
 		return properties;
 	}
@@ -355,9 +336,9 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	
 	public static void loadNPCVariablesFromXML(NPC npc, StringBuilder log, Element parentElement, Document doc, CharacterImportSetting... settings) {
 		GameCharacter.loadGameCharacterVariablesFromXML(npc, log, parentElement, doc, settings);
-		boolean noSlavery = Arrays.asList(settings).contains(CharacterImportSetting.CLEAR_SLAVERY);
 		
 		Element npcSpecificElement = (Element) parentElement.getElementsByTagName("npcSpecific").item(0);
+		
 		if(npcSpecificElement!=null) {
 			npc.setLastTimeEncountered(Long.valueOf(((Element)npcSpecificElement.getElementsByTagName("lastTimeEncountered").item(0)).getAttribute("value")));
 			
@@ -395,20 +376,6 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 			} catch(Exception ex) {
 			}
 		}
-		if (!noSlavery) {
-			Element slaveSpecificElement = (Element) parentElement.getElementsByTagName("slaveSpecific").item(0);
-			if(slaveSpecificElement != null) {
-				Element slaveCat = (Element)slaveSpecificElement.getElementsByTagName("category").item(0);
-				if (slaveCat != null) {
-					npc.slave_category = slaveCat.getAttribute("value");
-				}
-				Element slaveNotes = (Element)slaveSpecificElement.getElementsByTagName("notes").item(0);
-				if (slaveNotes != null) {
-					npc.slave_notes = slaveNotes.getTextContent();
-				}
-			}
-		}
-
 	}
 	
 	public void resetSlaveFlags() {
@@ -3547,26 +3514,6 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		} else { // Self-using:
 			return itemOwner.useItem(item, target, false);
 		}
-	}
-	
-	@Override
-	public String getSlaveNotes() {
-		return this.slave_notes;
-	}
-
-	@Override
-	public void setSlaveNotes(String input) {
-		this.slave_notes = input;
-	}
-
-	@Override
-	public String getSlaveCategory() {
-		return this.slave_category;
-	}
-
-	@Override
-	public void setSlaveCategory(String input) {
-		this.slave_category = input;
 	}
 
 }
