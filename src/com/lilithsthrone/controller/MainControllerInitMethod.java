@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLInputElement;
+import org.w3c.dom.html.HTMLTextAreaElement;
 
 import com.lilithsthrone.controller.eventListeners.EnchantmentEventListener;
 import com.lilithsthrone.controller.eventListeners.InventorySelectedItemEventListener;
@@ -1828,7 +1829,7 @@ public class MainControllerInitMethod {
 					id = "SET_SLAVE_NOTES";
 					if (((EventTarget) MainController.document.getElementById(id)) != null) {
 						((EventTarget) MainController.document.getElementById(id)).addEventListener("change", e -> {
-							Main.game.getDialogueFlags().getManagementCompanion().setSlaveNotes(((HTMLInputElement)e.getTarget()).getValue());
+							Main.game.getDialogueFlags().getManagementCompanion().setSlaveNotes(((HTMLTextAreaElement)e.getTarget()).getValue());
 							//Main.game.setContent(new Response("", "", CompanionManagement.getSlaveryManagementSlaveJobsDialogue(Main.game.getDialogueFlags().getManagementCompanion())));
 						}, false);
 						MainController.addEventListener(MainController.document, id, "mousemove", MainController.moveTooltipListener, false);
@@ -1837,6 +1838,8 @@ public class MainControllerInitMethod {
 								"<b>Slave Notes</b>",
 								"Write any arbitrary text here, or none at all. Useful if you need to track some information about a slave not available elsewhere.");
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
+						// This needs to be done here rather than in HTML due to Java not handling linebreaks and <br>s correctly.
+						((HTMLTextAreaElement)MainController.document.getElementById(id)).setValue(Main.game.getDialogueFlags().getManagementCompanion().getSlaveNotes());
 					}
 				}
 				

@@ -1048,7 +1048,7 @@ public class CompanionManagement {
 			UtilText.nodeContentSB.append(    "<h7>Notes</h7>");
 			UtilText.nodeContentSB.append(    "<div class='container-full-width inner' style='margin-bottom:0;'>");
 			UtilText.nodeContentSB.append(      "<form style='padding:0;margin:0;text-align:center;'>");
-			UtilText.nodeContentSB.append(        "<textarea id='SET_SLAVE_NOTES' style='width:760px;height:200px;'>"+UtilText.parseForHTMLDisplay(character.getSlaveNotes())+"</textarea>");
+			UtilText.nodeContentSB.append(        "<textarea id='SET_SLAVE_NOTES' style='width:760px;height:200px;'>"+character.getSlaveNotes()+"</textarea>");
 			UtilText.nodeContentSB.append(      "</form>");
 			UtilText.nodeContentSB.append(    "</div>");
 			UtilText.nodeContentSB.append(  "</div>");
