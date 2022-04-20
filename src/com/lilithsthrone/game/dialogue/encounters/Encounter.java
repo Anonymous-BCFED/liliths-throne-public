@@ -840,8 +840,12 @@ public class Encounter {
 					
 					return ((NPC) impGroup.get(0)).getEncounterDialogue();
 					
+				// MYSHIT
+				//} else if(Main.game.getPlayer().getLocationPlace().getPlaceType().equals(PlaceType.SUBMISSION_IMP_TUNNELS_DEMON)
+				//		&& !Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.impFortressDemonDefeated)) {
 				} else if(Main.game.getPlayer().getLocationPlace().getPlaceType().equals(PlaceType.SUBMISSION_IMP_TUNNELS_DEMON)
-						&& !Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.impFortressDemonDefeated)) {
+					&& (!Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.impFortressDemonDefeated) || Math.random() > 0.5)
+				) {
 					
 					// Demon-led imps: Encounters are 3 imps with an arcane imp leader
 					List<GameCharacter> impGroup = new ArrayList<>();
