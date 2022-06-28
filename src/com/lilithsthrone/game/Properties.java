@@ -49,6 +49,7 @@ import com.lilithsthrone.game.settings.ForcedTFTendency;
 import com.lilithsthrone.game.settings.KeyCodeWithModifiers;
 import com.lilithsthrone.game.settings.KeyboardAction;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.modding.PluginLoader;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 
@@ -463,7 +464,7 @@ public class Properties {
 			// Fetish preferences:
 			Element fetishPreferences = doc.createElement("fetishPreferences");
 			properties.appendChild(fetishPreferences);
-			for (Fetish f : Fetish.values()) {
+			for (Fetish f : PluginLoader.getInstance().getAllFetishes()) {
 				Element element = doc.createElement("preference");
 				fetishPreferences.appendChild(element);
 				
@@ -1550,7 +1551,7 @@ public class Properties {
 
 	public void resetFetishPreferences() {
 		fetishPreferencesMap = new EnumMap<>(Fetish.class);
-		for(Fetish f : Fetish.values()) {
+		for(Fetish f : PluginLoader.getInstance().getAllFetishes()) {
 			fetishPreferencesMap.put(f, f.getFetishPreferenceDefault().getValue());
 		}
 	}
