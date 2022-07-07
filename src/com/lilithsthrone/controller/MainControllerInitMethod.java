@@ -112,6 +112,7 @@ import com.lilithsthrone.game.character.effects.PerkCategory;
 import com.lilithsthrone.game.character.effects.PerkManager;
 import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.character.effects.TreeEntry;
+import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.fetishes.FetishPreference;
@@ -2895,7 +2896,7 @@ public class MainControllerInitMethod {
 				}
 				
 				// Fetishes:
-				for(Fetish fetish : PluginLoader.getInstance().getAllFetishes()) {
+				for(AbstractFetish fetish : PluginLoader.getInstance().getAllFetishes()) {
 					for(FetishDesire desire : FetishDesire.values()) {
 						id = "FETISH_DESIRE_"+fetish+desire;
 						if (((EventTarget) MainController.document.getElementById(id)) != null) {
@@ -6143,7 +6144,7 @@ public class MainControllerInitMethod {
 				}
 			}
 			if (Main.game.getCurrentDialogueNode() == PhoneDialogue.CHARACTER_FETISHES) {
-				for (Fetish f : PluginLoader.getInstance().getAllFetishes()) {
+				for (AbstractFetish f : PluginLoader.getInstance().getAllFetishes()) {
 					id = "fetishUnlock" + f;
 					if (((EventTarget) MainController.document.getElementById(id)) != null) {
 						((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
@@ -6334,7 +6335,7 @@ public class MainControllerInitMethod {
 		
 		// NPC Fetish spawn preferences:
 		if (Main.game.getCurrentDialogueNode() == OptionsDialogue.FETISH_PREFERENCE) {
-			for (Fetish f : PluginLoader.getInstance().getAllFetishes()) {
+			for (AbstractFetish f : PluginLoader.getInstance().getAllFetishes()) {
 				if(!Main.game.isPenetrationLimitationsEnabled() && f == Fetish.FETISH_SIZE_QUEEN) {
 					continue;
 				}

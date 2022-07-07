@@ -12,6 +12,7 @@ import com.lilithsthrone.game.character.body.valueEnums.*;
 import com.lilithsthrone.game.character.effects.AbstractStatusEffect;
 import com.lilithsthrone.game.character.effects.PerkManager;
 import com.lilithsthrone.game.character.effects.StatusEffect;
+import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.fetishes.FetishLevel;
@@ -47,6 +48,9 @@ import com.lilithsthrone.game.sex.managers.universal.SMMasturbation;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotMasturbation;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.modding.PluginLoader;
+import com.lilithsthrone.modding.fetishes.FetishGroup;
+import com.lilithsthrone.modding.fetishes.LooseFetishGroup;
+import com.lilithsthrone.modding.fetishes.RelatedFetishGroup;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.utils.Pathing;
 import com.lilithsthrone.utils.Units;
@@ -3742,8 +3746,8 @@ public class PhoneDialogue {
 					+ "</details>");
 			
 			// Normal fetishes:
-
 			journalSB.append("<div class='container-full-width' style='text-align:center; font-weight:bold;'><h6>Fetishes</h6></div>");
+			/* Moved to com.lilithsthrone.modding.PluginLoader.initFetishGroups.			
 			journalSB.append(getFetishEntry(Fetish.FETISH_DOMINANT, Fetish.FETISH_SUBMISSIVE));
 			journalSB.append(getFetishEntry(Fetish.FETISH_VAGINAL_GIVING, Fetish.FETISH_VAGINAL_RECEIVING));
 			journalSB.append(getFetishEntry(Fetish.FETISH_PENIS_GIVING, Fetish.FETISH_PENIS_RECEIVING));
@@ -3788,13 +3792,36 @@ public class PhoneDialogue {
 					journalSB.append(getFetishEntry(Fetish.FETISH_MASTURBATION, null));
 				}
 			}
+			*/
+			
+			// God, I wish we had Flexbox.
+			
+			// Stock AND mod fetishes
+			// Pairs at the top, just like stock.
+			List<AbstractFetish> loners = new ArrayList<AbstractFetish>();
+			RelatedFetishGroup rfg;
+			for(FetishGroup fg : PluginLoader.getInstance().getAllFetishGroups()) {
+				if(fg instanceof RelatedFetishGroup) {
+					rfg=(RelatedFetishGroup)fg;
+					journalSB.append(getFetishEntry(rfg.getDominantFetish(), rfg.getSubmissiveFetish()));
+				}
+				else if(fg instanceof LooseFetishGroup) {
+					loners.add(((LooseFetishGroup)fg).getMember());
+				}
+			}
+			// Loners get combined at the bottom.
+			int sz=loners.size();
+			for(int i = 0;i<sz;i+=2) {
+				journalSB.append(getFetishEntry(loners.get(i),
+						(i+1 == sz) ? null : loners.get(i+1)));
+			}
 			
 			// Derived fetishes:
 
 			journalSB.append("<div class='container-full-width' style='text-align:center; font-weight:bold; margin-top:16px;'><h6>Derived Fetishes</h6></div>");
 			journalSB.append("<div class='fetish-container'>");
 			
-			for(Fetish fetish : PluginLoader.getInstance().getAllFetishes()) {
+			for(AbstractFetish fetish : PluginLoader.getInstance().getAllFetishes()) {
 				if(!fetish.getFetishesForAutomaticUnlock().isEmpty()) {
 					journalSB.append(
 							"<div id='fetishUnlock" + fetish + "' class='fetish-icon" + (Main.game.getPlayer().hasFetish(fetish)
@@ -3837,14 +3864,14 @@ public class PhoneDialogue {
 	};
 	
 	
-	private static String getFetishEntry(Fetish othersFetish, Fetish selfFetish) {
+	public static String getFetishEntry(AbstractFetish othersFetish, AbstractFetish selfFetish) {
 		return "<div class='container-full-width' style='background:transparent; margin:2px 0; width:100%;'>"
 					+ getIndividualFetishEntry(othersFetish)
 					+ (selfFetish==null?"":getIndividualFetishEntry(selfFetish))
 				+ "</div>";
 	}
 	
-	private static String getIndividualFetishEntry(Fetish fetish) {
+	public static String getIndividualFetishEntry(AbstractFetish fetish) {
 		FetishLevel level = FetishLevel.getFetishLevelFromValue(Main.game.getPlayer().getFetishExperience(fetish));
 		float experiencePercentage = ((Main.game.getPlayer().getFetishExperience(fetish)) / (float)(level.getMaximumExperience()))*100;
 		
@@ -3889,7 +3916,7 @@ public class PhoneDialogue {
 				+ "</div>";
 	}
 	
-	private static String getFetishDesireEntry(Fetish fetish, FetishDesire desire) {
+	public static String getFetishDesireEntry(AbstractFetish fetish, FetishDesire desire) {
 		boolean disabled = desire!=FetishDesire.FOUR_LOVE && Main.game.getPlayer().hasFetish(fetish);
 		
 		return "<div class='square-button"+(disabled?" disabled":"")+"' id='"+fetish+"_"+desire+"'"

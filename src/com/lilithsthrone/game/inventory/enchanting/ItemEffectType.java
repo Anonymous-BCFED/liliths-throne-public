@@ -21,6 +21,7 @@ import com.lilithsthrone.game.character.body.valueEnums.*;
 import com.lilithsthrone.game.character.effects.AbstractStatusEffect;
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.StatusEffect;
+import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.npc.misc.GenericAndrogynousNPC;
@@ -43,6 +44,7 @@ import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.modding.PluginLoader;
 import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
@@ -696,9 +698,9 @@ public class ItemEffectType {
 		
 		@Override
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
-			List<Fetish> fetishesToAdd = new ArrayList<>();
-			List<Fetish> fetishesToRemove = new ArrayList<>();
-			for(Fetish f : Fetish.values()) {
+			List<AbstractFetish> fetishesToAdd = new ArrayList<>();
+			List<AbstractFetish> fetishesToRemove = new ArrayList<>();
+			for(AbstractFetish f : PluginLoader.getInstance().getAllFetishes()) {
 				if(f.getFetishesForAutomaticUnlock().isEmpty()) {
 					if(target.hasFetish(f)) {
 						fetishesToRemove.add(f);
@@ -746,7 +748,7 @@ public class ItemEffectType {
 			}
 
 			if((Math.random()>0.33f && !fetishesToAdd.isEmpty()) || fetishesToRemove.isEmpty()) {
-				Fetish f = fetishesToAdd.get(Util.random.nextInt(fetishesToAdd.size()));
+				AbstractFetish f = fetishesToAdd.get(Util.random.nextInt(fetishesToAdd.size()));
 				target.addFetish(f);
 				
 				return "<p style='text-align:center;'>"
@@ -758,7 +760,7 @@ public class ItemEffectType {
 						+"</p>";
 				
 			} else {
-				Fetish f = fetishesToRemove.get(Util.random.nextInt(fetishesToRemove.size()));
+				AbstractFetish f = fetishesToRemove.get(Util.random.nextInt(fetishesToRemove.size()));
 				target.removeFetish(f);
 				
 				return "<p style='text-align:center;'>"
@@ -1993,7 +1995,7 @@ public class ItemEffectType {
 		
 		@Override
 		public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
-			List<Fetish> availableFetishes = new ArrayList<>();
+			List<AbstractFetish> availableFetishes = new ArrayList<>();
 			
 			if(primaryModifier == TFModifier.TF_MOD_FETISH_BEHAVIOUR) {
 				for(TFModifier mod : TFModifier.getTFBehaviouralFetishList()) {
@@ -2011,8 +2013,8 @@ public class ItemEffectType {
 			
 			if(potency==TFPotency.BOOST) {
 				if(secondaryModifier == TFModifier.NONE) {
-					List<Fetish> fetishesToAdd = new ArrayList<>();
-					for(Fetish f : availableFetishes) {
+					List<AbstractFetish> fetishesToAdd = new ArrayList<>();
+					for(AbstractFetish f : availableFetishes) {
 						if(f.getFetishesForAutomaticUnlock().isEmpty() && !target.hasFetish(f)) {
 							if(f.isAvailable(target)) {
 								fetishesToAdd.add(f);
@@ -2021,7 +2023,7 @@ public class ItemEffectType {
 					}
 					
 					if(!fetishesToAdd.isEmpty()) {
-						Fetish f = fetishesToAdd.get(Util.random.nextInt(fetishesToAdd.size()));
+						AbstractFetish f = fetishesToAdd.get(Util.random.nextInt(fetishesToAdd.size()));
 						return target.addFetish(f);
 						
 					} else {
@@ -2031,15 +2033,15 @@ public class ItemEffectType {
 					}
 					
 				} else {
-					Fetish fetish = secondaryModifier.getFetish();
+					AbstractFetish fetish = secondaryModifier.getFetish();
 					
 					return target.addFetish(fetish);
 				}
 				
 			} else if(potency==TFPotency.MINOR_BOOST) {
 				if(secondaryModifier == TFModifier.NONE) {
-					List<Fetish> fetishesToBoost = new ArrayList<>();
-					for(Fetish f : availableFetishes) {
+					List<AbstractFetish> fetishesToBoost = new ArrayList<>();
+					for(AbstractFetish f : availableFetishes) {
 						if(f.getFetishesForAutomaticUnlock().isEmpty() && !target.hasFetish(f)) {
 							if(f.isAvailable(target)) {
 								fetishesToBoost.add(f);
@@ -2048,7 +2050,7 @@ public class ItemEffectType {
 					}
 					
 					if(!fetishesToBoost.isEmpty()) {
-						Fetish f = fetishesToBoost.get(Util.random.nextInt(fetishesToBoost.size()));
+						AbstractFetish f = fetishesToBoost.get(Util.random.nextInt(fetishesToBoost.size()));
 						FetishDesire newDesire = target.getFetishDesire(f).getNextDesire();
 						
 						return target.setFetishDesire(f, newDesire);
@@ -2060,7 +2062,7 @@ public class ItemEffectType {
 					}
 					
 				} else {
-					Fetish fetish = secondaryModifier.getFetish();
+					AbstractFetish fetish = secondaryModifier.getFetish();
 					FetishDesire newDesire = target.getFetishDesire(fetish).getNextDesire();
 					
 					return target.setFetishDesire(fetish, newDesire);
@@ -2068,8 +2070,8 @@ public class ItemEffectType {
 				
 			} else if(potency==TFPotency.MINOR_DRAIN) {
 				if(secondaryModifier == TFModifier.NONE) {
-					List<Fetish> fetishesToDrain = new ArrayList<>();
-					for(Fetish f : availableFetishes) {
+					List<AbstractFetish> fetishesToDrain = new ArrayList<>();
+					for(AbstractFetish f : availableFetishes) {
 						if(f.getFetishesForAutomaticUnlock().isEmpty() && !target.hasFetish(f)) {
 							if(f.isAvailable(target)) {
 								fetishesToDrain.add(f);
@@ -2078,7 +2080,7 @@ public class ItemEffectType {
 					}
 					
 					if(!fetishesToDrain.isEmpty()) {
-						Fetish f = fetishesToDrain.get(Util.random.nextInt(fetishesToDrain.size()));
+						AbstractFetish f = fetishesToDrain.get(Util.random.nextInt(fetishesToDrain.size()));
 						FetishDesire newDesire = target.getFetishDesire(f).getPreviousDesire();
 						
 						return target.setFetishDesire(f, newDesire);
@@ -2090,7 +2092,7 @@ public class ItemEffectType {
 					}
 					
 				} else {
-					Fetish fetish = secondaryModifier.getFetish();
+					AbstractFetish fetish = secondaryModifier.getFetish();
 					FetishDesire newDesire = target.getFetishDesire(fetish).getPreviousDesire();
 					
 					return target.setFetishDesire(fetish, newDesire);
@@ -2098,8 +2100,8 @@ public class ItemEffectType {
 				
 			} else {
 				if(secondaryModifier == TFModifier.NONE) {
-					List<Fetish> fetishesToRemove = new ArrayList<>();
-					for(Fetish f : availableFetishes) {
+					List<AbstractFetish> fetishesToRemove = new ArrayList<>();
+					for(AbstractFetish f : availableFetishes) {
 						if(f.getFetishesForAutomaticUnlock().isEmpty()) {
 							if(target.hasFetish(f)) {
 								fetishesToRemove.add(f);
@@ -2108,7 +2110,7 @@ public class ItemEffectType {
 					}
 					
 					if(!fetishesToRemove.isEmpty()) {
-						Fetish f = fetishesToRemove.get(Util.random.nextInt(fetishesToRemove.size()));
+						AbstractFetish f = fetishesToRemove.get(Util.random.nextInt(fetishesToRemove.size()));
 						return target.removeFetish(f);
 						
 					} else {
@@ -2118,7 +2120,7 @@ public class ItemEffectType {
 					}
 					
 				} else {
-					Fetish fetish = secondaryModifier.getFetish();
+					AbstractFetish fetish = secondaryModifier.getFetish();
 					
 					return target.removeFetish(fetish);
 				}
