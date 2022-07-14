@@ -6679,15 +6679,7 @@ public abstract class GameCharacter implements XMLSaving {
 	
 	public boolean hasFetish(AbstractFetish fetish) {
 		// If content settings are disabled, always treat fetish as not being owned:
-		if(!Main.game.isNonConEnabled() && (fetish==Fetish.FETISH_NON_CON_DOM || fetish==Fetish.FETISH_NON_CON_SUB)) {
-			return false;
-		} else if(!Main.game.isLactationContentEnabled() && (fetish==Fetish.FETISH_LACTATION_OTHERS || fetish==Fetish.FETISH_LACTATION_SELF)) {
-			return false;
-		} else if(!Main.game.isFootContentEnabled() && (fetish==Fetish.FETISH_FOOT_GIVING || fetish==Fetish.FETISH_FOOT_RECEIVING)) {
-			return false;
-		} else if(!Main.game.isAnalContentEnabled() && (fetish==Fetish.FETISH_ANAL_GIVING || fetish==Fetish.FETISH_ANAL_RECEIVING)) {
-			return false;
-		} else if(!Main.game.isArmpitContentEnabled() && (fetish==Fetish.FETISH_ARMPIT_GIVING || fetish==Fetish.FETISH_ARMPIT_RECEIVING)) {
+		if(fetish.isDisabled()) {
 			return false;
 		}
 		return fetishes.contains(fetish) || fetishesFromClothing.contains(fetish);
@@ -6805,7 +6797,7 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public void calculateSpecialFetishes() {
-		for(AbstractFetish f : PluginLoader.getInstance().getAllFetishes()) {
+		for(AbstractFetish f : Fetish.getAllFetishes()) {
 			if(!f.getFetishesForAutomaticUnlock().isEmpty()) {
 				boolean conditionsMet = true;
 				for(AbstractFetish fetishNeeded : f.getFetishesForAutomaticUnlock()) {
@@ -9479,6 +9471,8 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		// Hand holding:
 		addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.FINGER, SexAreaPenetration.FINGER), target, request, foreplaySexTypes, 0.5f);
+		
+		PluginLoader.getInstance().onGenerateSexChoicesAddSexTypes(resetPositioningBan,target,request,foreplaySexTypes,mainSexTypes);
 		
 		foreplaySexTypes.entrySet().removeIf(e -> e.getValue()<=0);
 		mainSexTypes.entrySet().removeIf(e -> e.getValue()<=0);
