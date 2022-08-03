@@ -58,57 +58,27 @@
   </coreAttributes>
 
   <displacementText type="REMOVE_OR_EQUIP">
-    <playerSelf>
-      <![CDATA[You pull out the anal beads from your [pc.ass+].]]>
-    </playerSelf>
-    <playerNPC>
-      <![CDATA[You pull out [npc.name]'s anal beads.]]>
-    </playerNPC>
-    <playerNPCRough>
-      <![CDATA[You firmly grab [npc.name]'s anal beads and yank it out of [npc.herHis] [npc.ass+].]]>
-    </playerNPCRough>
-    <NPCSelf>
-      <![CDATA[[npc.Name] [npc.verb(pull)] out [npc.herHis] anal beads.]]>
-    </NPCSelf>
-    <NPCPlayer>
-      <![CDATA[[npc.Name] [npc.verb(pull)] out the anal beads from your [pc.ass+].]]>
-    </NPCPlayer>
-    <NPCPlayerRough>
-      <![CDATA[[npc.Name] firmly grabs your anal beads and yanks them out of your [pc.ass+].]]>
-    </NPCPlayerRough>
-    <NPCOtherNPC>
-      <![CDATA[[npc1.Name] [npc1.verb(pull)] out [npc2.name]'s anal beads.]]>
-    </NPCOtherNPC>
-    <NPCOtherNPCRough>
-      <![CDATA[[npc.Name] firmly grabs [npc2.name]'s anal beads and yanks them out of [npc2.herHis] [npc2.ass+].]]>
-    </NPCOtherNPCRough>
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(pull)] out the anal beads from [npc.hisHer] [npc.ass+].]]>
+    </self>
+    <other>
+      <![CDATA[[npc1.Name] [npc1.verb(pull)] out [npc2.namePos] anal beads.]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc1.Name] firmly grabs [npc2.namePos] anal beads and yanks them out of [npc2.herHis] [npc2.ass+].]]>
+    </otherRough>
   </displacementText>
 
   <replacementText type="REMOVE_OR_EQUIP">
-    <playerSelf>
-      <![CDATA[You push the anal beads into your [pc.ass+].]]>
-    </playerSelf>
-    <playerNPC>
-      <![CDATA[You push the anal beads into [npc.name]'s [npc.ass+].]]>
-    </playerNPC>
-    <playerNPCRough>
-      <![CDATA[You hold [npc.name] still as you roughly force the anal beads into [npc.herHis] [npc.ass+].]]>
-    </playerNPCRough>
-    <NPCSelf>
-      <![CDATA[[npc.Name] pushes the anal beads into [npc.herHis] [npc.ass+].]]>
-    </NPCSelf>
-    <NPCPlayer>
-      <![CDATA[[npc.Name] push the anal beads into your [pc.ass+].]]>
-    </NPCPlayer>
-    <NPCPlayerRough>
-      <![CDATA[[npc.Name] holds you still as [npc.sheHe] roughly forces the anal beads into your [pc.ass+]]]>
-    </NPCPlayerRough>
-    <NPCOtherNPC>
-      <![CDATA[[npc1.Name] pushes the anal beads into [npc2.Name]'s [npc2.ass+].]]>
-    </NPCOtherNPC>
-    <NPCOtherNPCRough>
-      <![CDATA[[npc1.Name] holds [npc2.name] still as [npc1.sheHe] roughly forces the anal beads into [npc2.herHis] [npc2.ass+].]]>
-    </NPCOtherNPCRough>
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(push)] the anal beads into [npc.herHis] [npc.ass+].]]>
+    </self>
+    <other>
+      <![CDATA[[npc1.Name] [npc1.verb(push)] the anal beads into [npc2.namePos] [npc2.ass+].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc1.Name] [npc1.verb(hold)] [npc2.name] still as [npc1.sheHe] roughly [npc1.verb(force)] the anal beads into [npc2.herHis] [npc2.ass+].]]>
+    </otherRough>
   </replacementText>
   
   

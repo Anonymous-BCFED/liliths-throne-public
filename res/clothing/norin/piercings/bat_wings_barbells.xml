@@ -53,30 +53,15 @@
   </coreAttributes>
 
   <displacementText type="REMOVE_OR_EQUIP">
-    <playerSelf>
-      <![CDATA[You slide out the bat wing barbells.]]>
-    </playerSelf>
-    <playerNPC>
-      <![CDATA[You slide out [npc.name]'s bat wing barbells.]]>
-    </playerNPC>
-    <playerNPCRough>
-      <![CDATA[You give [npc.name]'s bat wing barbells a tug before sliding them out.]]>
-    </playerNPCRough>
-    <NPCSelf>
+    <self>
       <![CDATA[[npc.Name] slides out [npc.herHis] bat wing barbells.]]>
-    </NPCSelf>
-    <NPCPlayer>
-      <![CDATA[[npc.Name] slides the bat wing barbells from your nipples.]]>
-    </NPCPlayer>
-    <NPCPlayerRough>
-      <![CDATA[[npc.Name] gives your bat wing barbells a tug before sliding them out.]]>
-    </NPCPlayerRough>
-    <NPCOtherNPC>
+    </self>
+    <other>
       <![CDATA[[npc1.Name] slides out [npc2.name]'s bat wing barbells.]]>
-    </NPCOtherNPC>
-    <NPCOtherNPCRough>
+    </other>
+    <otherRough>
       <![CDATA[[npc1.Name] gives [npc2.name]'s bat wing barbells a tug before sliding them out.]]>
-    </NPCOtherNPCRough>
+    </otherRough>
   </displacementText>
 
   <replacementText type="REMOVE_OR_EQUIP">

@@ -118,58 +118,28 @@
 	
 	<!-- 'displacementText' is used for removal and displacement. -->
 	<displacementText type="REMOVE_OR_EQUIP">
-		<playerSelf><![CDATA[
-			You take off your spiked collar.
-		]]></playerSelf>
-		<playerNPC><![CDATA[
-			You pull off [npc.name]'s spiked collar.
-		]]></playerNPC>
-		<playerNPCRough><![CDATA[
-			You pull off [npc.name]'s spiked collar.
-		]]></playerNPCRough>
-		<NPCSelf><![CDATA[
-			[npc.Name] takes [npc.her] spiked collar off.
-		]]></NPCSelf>
-		<NPCPlayer><![CDATA[
-			[npc.Name] pulls your spiked collar off.
-		]]></NPCPlayer>
-		<NPCPlayerRough><![CDATA[
-			[npc.Name] pulls your spiked collar off.
-		]]></NPCPlayerRough>
-		<NPCOtherNPC><![CDATA[
-			[npc1.Name] pulls [npc2.name]'s spiked collar off.
-		]]></NPCOtherNPC>
-		<NPCOtherNPCRough><![CDATA[
-			[npc1.Name] pulls [npc2.name]'s spiked collar off.
-		]]></NPCOtherNPCRough>
+		<self><![CDATA[
+			[npc.Name] [npc.verb(take)] [npc.her] spiked collar off.
+		]]></self>
+		<other><![CDATA[
+			[npc1.Name] [npc.verb(pull)] [npc2.name]'s spiked collar off.
+		]]></other>
+		<otherRough><![CDATA[
+			[npc1.Name] [npc.verb(pull)] [npc2.name]'s spiked collar off.
+		]]></otherRough>
 	</displacementText>
 
 	<!-- 'replacementText' is used for equipping and replacements. -->
 	<replacementText type="REMOVE_OR_EQUIP">
-		<playerSelf><![CDATA[
-			You clasp the spiked collar around your neck.
-		]]></playerSelf>
-		<playerNPC><![CDATA[
-			You clasp the spiked collar around [npc.name]'s neck.
-		]]></playerNPC>
-		<playerNPCRough><![CDATA[
-			You clasp the spiked collar around [npc.name]'s neck.
-		]]></playerNPCRough>
-		<NPCSelf><![CDATA[
-			[npc.Name] clasps the spiked collar around [npc.her] neck.
-		]]></NPCSelf>
-		<NPCPlayer><![CDATA[
-			[npc.Name] clasps the spiked collar around your neck.
-		]]></NPCPlayer>
-		<NPCPlayerRough><![CDATA[
-			[npc.Name] clasps the spiked collar around your neck.
-		]]></NPCPlayerRough>
-		<NPCOtherNPC><![CDATA[
-			[npc1.Name] clasps the spiked collar around [npc2.Name]'s neck.
-		]]></NPCOtherNPC>
-		<NPCOtherNPCRough><![CDATA[
-			[npc1.Name] clasps the spiked collar around [npc2.Name]'s neck.
-		]]></NPCOtherNPCRough>
+		<self><![CDATA[
+			[npc.Name] [npc.verb(clasp)] the spiked collar around [npc.her] neck.
+		]]></self>
+		<other><![CDATA[
+			[npc1.Name] [npc.verb(clasp)] the spiked collar around [npc2.Name]'s neck.
+		]]></other>
+		<otherRough><![CDATA[
+			[npc1.Name] [npc.verb(clasp)] the spiked collar around [npc2.Name]'s neck.
+		]]></otherRough>
 	</replacementText>
 	
 </clothing>
