@@ -2282,7 +2282,7 @@ public class Game implements XMLSaving {
 			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Ursa.class))) { addNPC(new Ursa(), false); addedNpcs.add(Ursa.class); }
 			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Aurokaris.class))) { addNPC(new Aurokaris(), false); addedNpcs.add(Aurokaris.class); }
 			
-			// Mods
+			// Let plugins know they can add stuff now.
 			PluginLoader.getInstance().onInitUniqueNPCs(addedNpcs);
 		} catch (Exception e) {
 			e.printStackTrace();
