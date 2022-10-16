@@ -47,7 +47,7 @@ public class PerkLoader {
 			for(BasePlugin p : pluginLoader.getAllPlugins()) {
 				for(AbstractPerk P : p.getPerks()) {
 					providedPerks.add(P);
-					Perk.addPerk(p, P.getID(), P);
+					Perk.addPerk(p, P.getId(), P);
 				}
 			}
 		}
@@ -62,7 +62,7 @@ public class PerkLoader {
 			System.err.println("Discovered Perks");
 			System.err.println("---------------------------------------------------------");
 			for(AbstractPerk f : allPerks) {
-				System.err.println(String.format("%s - %s (%s)", f.getClass().getName(), f.getID(), f.getName(null)));
+				System.err.println(String.format("%s - %s (%s)", f.getClass().getName(), f.getId(), f.getName(null)));
 			}
 			System.err.println("---------------------------------------------------------");
 		}

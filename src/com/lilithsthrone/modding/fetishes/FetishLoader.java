@@ -47,7 +47,7 @@ public class FetishLoader {
 			for(BasePlugin p : pluginLoader.getAllPlugins()) {
 				for(AbstractFetish f : p.getFetishes()) {
 					providedFetishes.add(f);
-					Fetish.addFetish(p, f.getID(), f);
+					Fetish.addFetish(p, f.getId(), f);
 				}
 			}
 		}

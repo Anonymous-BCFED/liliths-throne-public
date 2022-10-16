@@ -263,11 +263,11 @@ public abstract class AbstractPerk {
 		return school;
 	}
 	
-	public final String getID() {
+	public final String getId() {
 		return this.id;
 	}
 	
-	public void assignID(BasePlugin plugin, String id) {
+	public void assignId(BasePlugin plugin, String id) {
 		if(this.id != null)
 			return;
 		if(plugin == null) {

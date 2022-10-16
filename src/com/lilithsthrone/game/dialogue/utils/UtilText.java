@@ -1476,7 +1476,7 @@ public class UtilText {
 			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
 				List<String> strings = new ArrayList<>();
 				for(String s : arguments.split("\\|")) {
-					strings.add(UtilText.parse(s));
+					strings.add(UtilText.parse(s.trim()));
 				}
 				strings.removeIf(s->s.trim().isEmpty());
 				if(strings.isEmpty()) {
@@ -9985,7 +9985,7 @@ public class UtilText {
 		
 		// Effects & persona:
 		for(AbstractFetish f : Fetish.getAllFetishes()) {
-			engine.put(f.getID(), f);
+			engine.put(f.getId(), f);
 		}
 		for(FetishDesire fetishDesire : FetishDesire.values()) {
 			engine.put("FETISH_DESIRE_"+fetishDesire.toString(), fetishDesire);

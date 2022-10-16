@@ -171,6 +171,7 @@ import com.lilithsthrone.game.character.npc.submission.FortressAlphaLeader;
 import com.lilithsthrone.game.character.npc.submission.FortressFemalesLeader;
 import com.lilithsthrone.game.character.npc.submission.FortressMalesLeader;
 import com.lilithsthrone.game.character.npc.submission.GamblingDenPatron;
+import com.lilithsthrone.game.character.npc.submission.HazmatRat;
 import com.lilithsthrone.game.character.npc.submission.Lyssieth;
 import com.lilithsthrone.game.character.npc.submission.Murk;
 import com.lilithsthrone.game.character.npc.submission.RatWarrensCaptive;
@@ -622,7 +623,7 @@ public class Game implements XMLSaving {
 		return null;
 	}
 	
-	public static void exportGame(String exportFileName, boolean allowOverwrite) {
+	public static void exportGame(String exportFileName, boolean allowOverwrite, boolean isAutoSave) {
 		
 		File dir = new File("data/");
 		dir.mkdir();
@@ -814,7 +815,7 @@ public class Game implements XMLSaving {
 
 			transformer.transform(source, result);
 
-			if(!exportFileName.startsWith("AutoSave")) {
+			if(!isAutoSave) {
 				if(overwrite) {
 					Main.game.addEvent(new EventLogEntry("[style.colourGood(Game saved)]", saveLocation), false);
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()), false, PresetColour.GENERIC_GOOD, "Save game overwritten!");
@@ -1855,6 +1856,10 @@ public class Game implements XMLSaving {
 					}
 				}
 				
+				if(Main.isVersionOlderThan(loadingVersion, "0.4.6.1") && Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_SLIME_QUEEN)) {
+					Main.game.getPlayer().addItem(Main.game.getItemGen().generateItem("dsg_quest_hazmat_rat_card"), false);
+				}
+				
 				if(debug) {
 					System.out.println("New NPCs finished");
 					System.out.println("All finished");
@@ -2259,6 +2264,10 @@ public class Game implements XMLSaving {
 				getNpc(Silence.class).getAffectionMap().remove(getNpc(Silence.class).getId());
 			}
 			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Murk.class))) { addNPC(new Murk(), false); addedNpcs.add(Murk.class); }
+
+			// Hazmat Rat:
+			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(HazmatRat.class))) { addNPC(new HazmatRat(), false); addedNpcs.add(HazmatRat.class); }
+			
 			
 			// Elis:
 
@@ -2639,14 +2648,14 @@ public class Game implements XMLSaving {
 						&& npc.getHistory()==Occupation.NPC_PROSTITUTE
 						&& !npc.hasStatusEffect(StatusEffect.PROMISCUITY_PILL)
 						&& !npc.getLocation().equals(Main.game.getPlayer().getLocation()))
-						|| (npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PREGNANCY).contains(SlavePermissionSetting.PILLS_PROMISCUITY_PILLS))) {
+						|| (npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_PROMISCUITY_PILLS))) {
 					npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_sterility"), npc, false);
 				}
 				
-				if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PREGNANCY).contains(SlavePermissionSetting.PILLS_VIXENS_VIRILITY)) {
+				if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_VIXENS_VIRILITY)) {
 					npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_fertility"), npc, false);
 				}
-				if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PREGNANCY).contains(SlavePermissionSetting.PILLS_BROODMOTHER)) {
+				if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_BROODMOTHER)) {
 					npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_broodmother"), npc, false);
 				}
 			}
@@ -2780,7 +2789,7 @@ public class Game implements XMLSaving {
 						&& !npc.isAllowingPlayerToManageInventory()
 						&& (Main.game.getCurrentDialogueNode().equals(Main.game.getPlayerCell().getDialogue(false)) || !(getCharactersPresent().contains(npc)))) {
 					npc.clearNonEquippedInventory(false);
-					Main.game.getCharacterUtils().generateItemsInInventory(npc);
+					Main.game.getCharacterUtils().regenerateItemsInInventory(npc);
 				}
 				try {
 					npc.dailyUpdate();
@@ -3172,7 +3181,7 @@ public class Game implements XMLSaving {
 						&& Main.game.isRequestAutosave()
 						&& (Main.game.getCurrentDialogueNode()!=null && !Main.game.getCurrentDialogueNode().isTravelDisabled())) {
 					lastAutoSaveTime = Main.game.getSecondsPassed();
-					Main.saveGame("AutoSave_"+Main.game.getPlayer().getName(false), true);
+					Main.saveGame("AutoSave_"+Main.game.getPlayer().getName(false), true, true);
 					Main.game.setRequestAutosave(false);
 				}
 				
@@ -3415,7 +3424,7 @@ public class Game implements XMLSaving {
 				&& Main.game.isRequestAutosave()
 				&& (Main.game.getCurrentDialogueNode()!=null && !Main.game.getCurrentDialogueNode().isTravelDisabled())) {
 			lastAutoSaveTime = Main.game.getSecondsPassed();
-			Main.saveGame("AutoSave_"+Main.game.getPlayer().getName(false), true);
+			Main.saveGame("AutoSave_"+Main.game.getPlayer().getName(false), true, true);
 			Main.game.setRequestAutosave(false);
 		}
 
@@ -4933,6 +4942,14 @@ public class Game implements XMLSaving {
 				}
 			}
 			
+			for(Value<Integer, List<SlaveryEventLogEntry>> value : slaveryEventLog) {
+				for(SlaveryEventLogEntry entry : value.getValue()) {
+					if(entry.getSlaveID().equals(npc.getId())) {
+						entry.applySlaveDeleted();
+					}
+				}
+			}
+			
 			npc.getCell().removeCharacterPresentId(npc.getId());
 			npc.getHomeCell().removeCharacterHomeId(npc.getId());
 			ParserTarget.removeAdditionalParserTarget(npc);
@@ -5348,6 +5365,10 @@ public class Game implements XMLSaving {
 	public boolean isLactationContentEnabled() {
 		return Main.getProperties().hasValue(PropertyValue.lactationContent);
 	}
+	
+	public boolean isUdderContentEnabled() {
+		return Main.getProperties().hasValue(PropertyValue.udderContent);
+	}
 
 	public boolean isCumRegenerationEnabled() {
 		return Main.getProperties().hasValue(PropertyValue.cumRegenerationContent);
@@ -5368,10 +5389,6 @@ public class Game implements XMLSaving {
 
 	public boolean isCompanionContentEnabled() {
 		return Main.getProperties().hasValue(PropertyValue.companionContent);
-	}
-	
-	public boolean isCrotchBoobContentEnabled() {
-		return Main.getProperties().getUddersLevel()>0;
 	}
 	
 	public boolean isMuskContentEnabled() {

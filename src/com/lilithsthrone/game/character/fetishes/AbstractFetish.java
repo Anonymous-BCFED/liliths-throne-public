@@ -253,7 +253,7 @@ public abstract class AbstractFetish {
 						System.err.println("Error! Fetish icon file does not exist (Trying to read from '" + pathName + "')!");
 					}
 					SVGString = Util.inputStreamToString(is);
-					SVGString = SvgUtil.colourReplacement(this.getID(), colourShades, null, SVGString);
+					SVGString = SvgUtil.colourReplacement(this.getId(), colourShades, null, SVGString);
 					is.close();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -327,12 +327,12 @@ public abstract class AbstractFetish {
 		}
 	}
 
-	public String getID() {
+	public String getId() {
 		return this.id;
 	}
 	
 	public String toString() {
-		return this.getID();
+		return this.getId();
 	}
 
 	public String getAppliedFetishLevelEffectDescription(GameCharacter character) {

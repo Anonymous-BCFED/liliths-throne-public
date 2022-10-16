@@ -2978,6 +2978,34 @@ public class Perk {
 		}
 	};
 	
+	
+	//**** Special perks which can be gained from in-game events: ****//
+
+	public static AbstractPerk PIX_TRAINING = new AbstractPerk(20,
+			false,
+			"Pix's Training",
+			PerkCategory.PHYSICAL,
+			"perks/pix_trained",
+			Util.newArrayListOfValues(
+				PresetColour.ATTRIBUTE_PHYSIQUE),
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.MAJOR_PHYSIQUE, 2),
+					new Value<>(Attribute.RESISTANCE_PHYSICAL, 1),
+					new Value<>(Attribute.DAMAGE_PHYSICAL, 1)),
+			null,
+			null,
+			null,
+			null) {
+		@Override
+		public String getDescription(GameCharacter owner) {
+			return UtilText.parse(owner, "Having survived multiple intense workout sessions with Dominion's most excitable and motivated physical trainer, you feel noticeably stronger.");
+		}
+		@Override
+		public boolean isHiddenPerk() {
+			return true;
+		}
+	};
+	
 	public static AbstractPerk IMP_SLAYER = new AbstractPerk(20,
 			false,
 			"doomguy",
@@ -3063,6 +3091,8 @@ public class Perk {
 		}
 	};
 	
+	
+	//**** Elder lilin perks: ****//
 	
 	public static AbstractPerk POWER_OF_LIRECEA_1 = new AbstractPerk(20,
 			false,
@@ -6172,16 +6202,16 @@ public class Perk {
 			Perk.getAllPerks(); // Trigger perk list build
 		}
 		//return perkToIdMap.get(perk);
-		return perk.getID();
+		return perk.getId();
 	}
 
 	public static void addPerk(BasePlugin plugin, String id, AbstractPerk perk) {
 		// I feel like this is stupid :thinking:
 		if(!allPerks.contains(perk)) {
-			perk.assignID(plugin, id);
+			perk.assignId(plugin, id);
 			
-			perkToIdMap.put(perk, perk.getID());
-			idToPerkMap.put(perk.getID(), perk);
+			perkToIdMap.put(perk, perk.getId());
+			idToPerkMap.put(perk.getId(), perk);
 	
 			allPerks.add(perk);
 			if (perk.isHiddenPerk()) {

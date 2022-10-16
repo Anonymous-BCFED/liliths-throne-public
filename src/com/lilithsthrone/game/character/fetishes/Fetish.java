@@ -2340,8 +2340,8 @@ public class Fetish {
 
 	public static void addFetish(BasePlugin plugin, String fetishID, AbstractFetish fetish) {
 		fetish.assignID(plugin,fetishID);
-		fetishToIdMap.put(fetish, fetish.getID());
-		idToFetishMap.put(fetish.getID(), fetish);
+		fetishToIdMap.put(fetish, fetish.getId());
+		idToFetishMap.put(fetish.getId(), fetish);
 		allFetishes.add(fetish);
 	}
 	
