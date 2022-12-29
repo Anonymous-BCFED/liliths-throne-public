@@ -221,11 +221,11 @@ import com.lilithsthrone.world.places.AbstractPlaceUpgrade;
 import com.lilithsthrone.world.places.PlaceType;
 import com.lilithsthrone.world.places.PlaceUpgrade;
 
-import jdk.nashorn.api.scripting.NashornScriptEngine;
-import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
+//import jdk.nashorn.api.scripting.NashornScriptEngine;
+//import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 // Use the following imports when using the org.openjdk.nashorn dependency:
-//import org.openjdk.nashorn.api.scripting.NashornScriptEngine;
-//import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngine;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 /**
  * @since 0.1.0
@@ -244,7 +244,7 @@ public class UtilText {
 	private static Body body;
 	private static AbstractRace race;
 	private static CharacterInventory inventory;
-	
+
 //	private static List<GameCharacter> specialNPCList = new ArrayList<>();
 	private static boolean parseCapitalise;
 	private static boolean parseAddPronoun;
@@ -3252,11 +3252,12 @@ public class UtilText {
 			@Override
 			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
 				Femininity fem =  Femininity.valueOf(character.getFemininityValue());
+				boolean pronoun = parseAddPronoun;
+				parseAddPronoun = false;
 				if(arguments!=null && Boolean.valueOf(arguments)) {
-					return "<span style='color:"+fem.getColour().toWebHexString()+";'>"+fem.getName(false)+"</span>";
-							
+					return "<span style='color:"+fem.getColour().toWebHexString()+";'>"+fem.getName(pronoun)+"</span>";
 				}
-				return fem.getName(false);
+				return fem.getName(pronoun);
 			}
 		});
 		

@@ -4251,12 +4251,12 @@ public abstract class GameCharacter implements XMLSaving {
 			} else if (petName.equalsIgnoreCase("Ma'am") || petName.equalsIgnoreCase("Sir")) {
 				return target.isFeminine()?"Ma'am":"Sir";
 				
-			} else if (petName.equalsIgnoreCase("Mr. "+this.getSurname()) || petName.equalsIgnoreCase("Mrs. "+this.getSurname()) || petName.equalsIgnoreCase("Miss "+this.getSurname())) {
+			} else if (petName.equalsIgnoreCase("Mr. "+target.getSurname()) || petName.equalsIgnoreCase("Mrs. "+target.getSurname()) || petName.equalsIgnoreCase("Miss "+target.getSurname())) {
 				return target.isFeminine()
-						?(petName.equalsIgnoreCase("Mrs. "+this.getSurname())
-							?"Mrs. "+this.getSurname()
-							:"Miss "+this.getSurname())
-						:"Mr. "+this.getSurname();
+						?(petName.equalsIgnoreCase("Mrs. "+target.getSurname())
+							?"Mrs. "+target.getSurname()
+							:"Miss "+target.getSurname())
+						:"Mr. "+target.getSurname();
 			}
 			return petName;
 		}
@@ -4891,7 +4891,8 @@ public abstract class GameCharacter implements XMLSaving {
 	 * Do not use this method to alter the map!
 	 */
 	public Map<String, Float> getAffectionMap() {
-		return affectionMap;
+		// FIX for save-corruption bug
+		return Collections.unmodifiableMap(affectionMap);
 	}
 	
 	public void clearAffectionMap() {
@@ -4934,10 +4935,11 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public void setAffection(String id, float affection) {
+		assert ((int)affection) != affection;
 		if(affection == 0f) {
 			affectionMap.remove(id);
 		} else {
-			affectionMap.put(id, Math.max(-100, Math.min(100, affection)));
+			affectionMap.put(id, Math.max(-100f, Math.min(100f, affection)));
 		}
 	}
 
@@ -6543,7 +6545,7 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public boolean hasTraitActivated(AbstractPerk perk) {
-		return traits.contains(perk);
+		return traits.contains(perk) || perk==getHistory().getAssociatedPerk();
 	}
 
 	public boolean removeTrait(AbstractPerk perk) {
@@ -7599,6 +7601,14 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	// Helper methods:
+	
+	public int getTotalSexConsensualCount() {
+		int i=0;
+		for(SexCount count : sexCount.values()) {
+			i+=count.getSexConsensualCount();
+		}
+		return i;
+	}
 	
 	public int getSexConsensualCount(GameCharacter partner) {
 		return getSexCount(partner).getSexConsensualCount();
@@ -23075,7 +23085,7 @@ public abstract class GameCharacter implements XMLSaving {
 			Main.game.addEvent(new EventLogEntry("Equipped", newClothing.getDisplayName(true)), false);
 		}
 		
-		if (characterClothingEquipper != null) { // If no equipper do not reset the seal status
+		if (characterClothingEquipper!=null) { // If no equipper do not reset the seal status
 			newClothing.setUnlocked(false);
 		}
 		
@@ -25778,14 +25788,17 @@ public abstract class GameCharacter implements XMLSaving {
 		}
 		return this.getSubspecies().isShortStature()
 				?Height.NEGATIVE_TWO_MINIMUM.getMinimumValue()
-				:Height.ZERO_TINY.getMinimumValue();
+				:Height.getShortStatureCutOff();
 	}
 	
 	public int getMaximumHeight() {
 //		if(this.isFeral()) {
 //			return Math.max(Height.SEVEN_COLOSSAL.getMaximumValue(), (int) (this.getFeralAttributes().getSize()*2f));
 //		}
-		return Height.SEVEN_COLOSSAL.getMaximumValue();
+
+		return this.getSubspecies().isShortStature()
+				?Height.getShortStatureCutOff()-1
+				:Height.SEVEN_COLOSSAL.getMaximumValue();
 	}
 
 	public String setHeight(int height) {
@@ -25796,13 +25809,7 @@ public abstract class GameCharacter implements XMLSaving {
 	 */
 	public String setHeight(int height, boolean ignoreHeightRestrictions) {
 		if(!ignoreHeightRestrictions) {
-			if(this.getHeightValue()<Height.ZERO_TINY.getMinimumValue()) {
-				height = Math.min(Height.ZERO_TINY.getMinimumValue()-1,
-							Math.max(Height.NEGATIVE_TWO_MINIMUM.getMinimumValue(), height));
-			} else {
-				height = Math.min(Height.SEVEN_COLOSSAL.getMaximumValue(),
-							Math.max(Height.ZERO_TINY.getMinimumValue(), height));
-			}
+			height = Math.min(getMaximumHeight(), Math.max(getMinimumHeight(), height));
 		}
 		
 		if (body.getHeightValue() < height) {

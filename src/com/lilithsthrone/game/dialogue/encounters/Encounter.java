@@ -410,7 +410,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) { // Incest
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) { // Incest
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 						os-> (os.getSubspecies()==Subspecies.HALF_DEMON
 								?(os.getHalfDemonSubspecies().isAbleToNaturallySpawnInLocation(WorldType.DOMINION, PlaceType.DOMINION_BACK_ALLEYS))
@@ -562,7 +562,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) { // Incest
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) { // Incest
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 							os-> (os.getSubspecies()==Subspecies.HALF_DEMON
 								?(os.getHalfDemonSubspecies().isAbleToNaturallySpawnInLocation(WorldType.DOMINION, PlaceType.DOMINION_CANAL)
@@ -682,7 +682,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) { // Incest
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) { // Incest
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 							os-> (os.getSubspecies()==Subspecies.HALF_DEMON
 								?(os.getHalfDemonSubspecies().getRace()==Race.HARPY)
@@ -742,7 +742,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) { // Incest
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) { // Incest
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 							os-> (os.getSubspecies()==Subspecies.HALF_DEMON
 								?(os.getHalfDemonSubspecies().getRace()==Race.HARPY)
@@ -995,7 +995,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) {
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) {
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 							os-> (os.getSubspecies()==Subspecies.HALF_DEMON
 								?(os.getHalfDemonSubspecies().isAbleToNaturallySpawnInLocation(WorldType.SUBMISSION, PlaceType.SUBMISSION_TUNNELS))
@@ -1118,7 +1118,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) {
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) {
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 							os-> (os.getSubspecies()==Subspecies.HALF_DEMON
 								?(os.getHalfDemonSubspecies().isAbleToNaturallySpawnInLocation(WorldType.BAT_CAVERNS, PlaceType.BAT_CAVERN_DARK))
@@ -1145,7 +1145,7 @@ public class Encounter {
 					return Main.game.getActiveNPC().getEncounterDialogue();
 				}
 				
-				if(Math.random()<IncestEncounterRate()) {
+				if(Math.random()<IncestEncounterRate() && Main.game.isOffspringEncountersEnabled()) {
 					List<OffspringSeed> offspringAvailable = Main.game.getOffspringNotSpawned(
 							os-> (os.getBodyMaterial() == BodyMaterial.SLIME));
 
