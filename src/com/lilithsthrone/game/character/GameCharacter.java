@@ -4868,7 +4868,8 @@ public abstract class GameCharacter implements XMLSaving {
 	 * Do not use this method to alter the map!
 	 */
 	public Map<String, Float> getAffectionMap() {
-		return affectionMap;
+		// FIX for save-corruption bug
+		return Collections.unmodifiableMap(affectionMap);
 	}
 	
 	public void clearAffectionMap() {
@@ -4911,10 +4912,11 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public void setAffection(String id, float affection) {
+		assert ((int)affection) != affection;
 		if(affection == 0f) {
 			affectionMap.remove(id);
 		} else {
-			affectionMap.put(id, Math.max(-100, Math.min(100, affection)));
+			affectionMap.put(id, Math.max(-100f, Math.min(100f, affection)));
 		}
 	}
 
