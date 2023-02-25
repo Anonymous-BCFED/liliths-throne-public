@@ -2711,7 +2711,7 @@ public abstract class AbstractItemEffectType {
 	
 	protected static RacialEffectUtil getRacialEffect(AbstractRace race, TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, GameCharacter user, GameCharacter target) {
 		
-		boolean revealTransformedPart = !user.equals(target);
+		boolean revealTransformedPart = user != null && !user.equals(target);
 		
 		switch(primaryModifier) {
 			case TF_ANTENNA:

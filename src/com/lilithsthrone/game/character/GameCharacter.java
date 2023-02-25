@@ -7116,7 +7116,7 @@ public abstract class GameCharacter implements XMLSaving {
 		requiresAttributeStatusEffectCheck = false;
 		
 		// Clothing effects:
-		for(AbstractClothing c : this.getClothingCurrentlyEquipped()) {
+		for(AbstractClothing c : new ArrayList<AbstractClothing>(this.getClothingCurrentlyEquipped())) {
 			for(ItemEffect ie : c.getEffects()) {
 				String clothingEffectDescription = ie.applyEffect(this, this, secondsPassed);
 				if(!clothingEffectDescription.isEmpty()) {
