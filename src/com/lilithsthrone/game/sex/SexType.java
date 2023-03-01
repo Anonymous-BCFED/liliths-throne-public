@@ -392,7 +392,10 @@ public class SexType implements XMLSaving {
 	public List<AbstractFetish> getOppositeFetishes(GameCharacter characterPerforming, GameCharacter characterTargeted, boolean isPenetration, boolean isOrgasm) {
 		List<AbstractFetish> oppositeFetishes = new ArrayList<>();
 		for(AbstractFetish f : getRelatedFetishes(characterPerforming, characterTargeted, isPenetration, isOrgasm)) {
-			oppositeFetishes.addAll(f.getOppositeFetishes());
+			AbstractFetish opposite = f.getOpposite();
+			if(opposite != null) {
+				oppositeFetishes.add(f.getOpposite());
+			}
 		}
 		return oppositeFetishes;
 	}

@@ -2579,8 +2579,25 @@ public class CharacterUtils {
 		List<AbstractFetish> allowedFetishes = new ArrayList<>();
 		
 		for(AbstractFetish f : Fetish.getAllFetishes()) {
-			if(f.isAllowed(character))
-				allowedFetishes.add(f);
+			if (Fetish.FETISH_PURE_VIRGIN.equals(f)) {
+				if (character.hasVagina() && (character.getHistory() != Occupation.NPC_PROSTITUTE || Math.random()<=0.25f))
+					allowedFetishes.add(f);
+			} else if (Fetish.FETISH_PREGNANCY.equals(f) || Fetish.FETISH_VAGINAL_RECEIVING.equals(f)) {
+				if (character.hasVagina())
+					allowedFetishes.add(f);
+			} else if (Fetish.FETISH_IMPREGNATION.equals(f)) {
+				if (character.hasPenis() && character.sexualOrientation != SexualOrientation.ANDROPHILIC)
+					allowedFetishes.add(f);
+			} else if (Fetish.FETISH_CUM_STUD.equals(f) || Fetish.FETISH_PENIS_GIVING.equals(f)) {
+				if (character.hasPenis())
+					allowedFetishes.add(f);
+			} else if (Fetish.FETISH_BREASTS_SELF.equals(f)) {
+				if (character.hasBreasts())
+					allowedFetishes.add(f);
+			} else {
+				if (f.getFetishesForAutomaticUnlock().isEmpty() && f.isContentEnabled())
+					allowedFetishes.add(f);
+			}
 		}
 		return allowedFetishes;
 	}
@@ -2656,7 +2673,12 @@ public class CharacterUtils {
 		List<AbstractFetish> availableFetishes = getAllowedFetishes(character);
 		availableFetishes.removeAll(character.getFetishes(false));
 		for(AbstractFetish f : character.getFetishes(false)) {
-			f.onBeforeGeneratingDesires(character, availableFetishes);
+			// Related fetishes cannot be loved and disliked at the same time:
+			if (Fetish.FETISH_PREGNANCY.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_VAGINAL_RECEIVING);
+			} else if (Fetish.FETISH_IMPREGNATION.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_VAGINAL_GIVING);
+			}
 		}
 
 		// Desires:
@@ -2694,7 +2716,21 @@ public class CharacterUtils {
 		// Disliked fetishes:
 		// Related fetishes cannot be liked and disliked at the same time:
 		for(AbstractFetish f : fetishesLiked) {
-			f.onGeneratingDesiresForLikedFetishes(character, availableFetishes);
+			if (Fetish.FETISH_VAGINAL_RECEIVING.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_PENIS_RECEIVING);
+			} else if (Fetish.FETISH_VAGINAL_GIVING.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_PENIS_GIVING);
+			} else if (Fetish.FETISH_PREGNANCY.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_VAGINAL_RECEIVING);
+				availableFetishes.remove(Fetish.FETISH_PENIS_RECEIVING);
+				availableFetishes.remove(Fetish.FETISH_CUM_ADDICT);
+			} else if (Fetish.FETISH_IMPREGNATION.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_VAGINAL_GIVING);
+				availableFetishes.remove(Fetish.FETISH_PENIS_GIVING);
+				availableFetishes.remove(Fetish.FETISH_CUM_STUD);
+			} else if (Fetish.FETISH_NON_CON_SUB.equals(f)) {
+				availableFetishes.remove(Fetish.FETISH_SUBMISSIVE);
+			}
 		}
 		
 		desiresAssigned = 0;

@@ -1,8 +1,7 @@
 package com.lilithsthrone.game.character.fetishes;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,9 @@ import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.types.VaginaType;
-import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.modding.BasePlugin;
-import com.lilithsthrone.modding.PluginLoader;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.PresetColour;
@@ -69,24 +65,13 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isAnalContentEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isAnalContentEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(Fetish.FETISH_ANAL_RECEIVING);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_ANAL_RECEIVING; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isAnalContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.ANAL);
-		}
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_ANAL_RECEIVING = new AbstractFetish(60,
@@ -124,26 +109,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.TWO_HORNY;
 		}
+
+		@Override
+		public boolean isContentEnabled() { return Main.game.isAnalContentEnabled(); }
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isAnalContentEnabled();
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_ANAL_GIVING);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isAnalContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.ANAL);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_ANAL_GIVING; }
 	};
 	
 	public static AbstractFetish FETISH_VAGINAL_GIVING = new AbstractFetish(60,
@@ -181,17 +152,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_VAGINAL_RECEIVING);
-		}
-
-		@Override
-		public void onGeneratingDesiresForLikedFetishes(GameCharacter character,
-				List<AbstractFetish> availableFetishes) {
-			availableFetishes.remove(Fetish.FETISH_PENIS_GIVING);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_VAGINAL_RECEIVING; }
 	};
 	
 	public static AbstractFetish FETISH_VAGINAL_RECEIVING = new AbstractFetish(60,
@@ -228,22 +191,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_VAGINAL_GIVING);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_VAGINAL_GIVING; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasVagina();
-		}
-
-		@Override
-		public void onGeneratingDesiresForLikedFetishes(GameCharacter character,
-				List<AbstractFetish> availableFetishes) {
-			availableFetishes.remove(FETISH_PENIS_RECEIVING);
-		}
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_ORAL_RECEIVING = new AbstractFetish(60,
@@ -281,11 +234,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_ORAL_GIVING);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_ORAL_GIVING; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_ORAL_GIVING = new AbstractFetish(60,
@@ -323,11 +277,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_ORAL_RECEIVING);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_ORAL_RECEIVING; }
 	};
 	
 	public static AbstractFetish FETISH_BREASTS_OTHERS = new AbstractFetish(60,
@@ -365,13 +317,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_BREASTS_SELF);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_BREASTS_SELF; }
 		
-		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_BREASTS_SELF = new AbstractFetish(60,
@@ -409,16 +360,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_BREASTS_OTHERS);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasBreasts();
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_BREASTS_OTHERS; }
 	};
 	
 	public static AbstractFetish FETISH_LACTATION_OTHERS = new AbstractFetish(60,
@@ -458,24 +402,10 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isLactationContentEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isLactationContentEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_LACTATION_SELF);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isLactationContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.LACTATION);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_LACTATION_SELF; }
 	};
 	
 	public static AbstractFetish FETISH_LACTATION_SELF = new AbstractFetish(60,
@@ -515,24 +445,13 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isLactationContentEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isLactationContentEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_LACTATION_OTHERS);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_LACTATION_OTHERS; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isLactationContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.LACTATION);
-		}
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_LEG_LOVER = new AbstractFetish(60,
@@ -570,11 +489,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_STRUTTER);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_STRUTTER; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_STRUTTER = new AbstractFetish(60,
@@ -612,14 +532,8 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_LEG_LOVER);
-		}
 	};
 	
-
 	public static AbstractFetish FETISH_FOOT_GIVING = new AbstractFetish(60,
 			"dominant foot",
 			"using feet",
@@ -657,24 +571,13 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isFootContentEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isFootContentEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_FOOT_RECEIVING);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_FOOT_RECEIVING; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isFootContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.FEET);
-		}
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_FOOT_RECEIVING = new AbstractFetish(60,
@@ -714,24 +617,10 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isFootContentEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isFootContentEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_FOOT_GIVING);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isFootContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.FEET);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_FOOT_GIVING; }
 	};
 
 	public static AbstractFetish FETISH_ARMPIT_GIVING = new AbstractFetish(60,
@@ -768,24 +657,13 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isArmpitContentEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isArmpitContentEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_ARMPIT_RECEIVING);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_ARMPIT_RECEIVING; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isArmpitContentEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.ARMPITS);
-		}
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_ARMPIT_RECEIVING = new AbstractFetish(60,
@@ -819,62 +697,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
-		}
-		
-		@Override
-		public boolean isDisabled() {
-			return !Main.game.isArmpitContentEnabled();
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_ARMPIT_GIVING);
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.ARMPITS);
-		}
-	};
-	
-	public static AbstractFetish FETISH_PENIS_RECEIVING = new AbstractFetish(60,
-			"cock addict",
-			"others' cocks",
-			"fetish_cock_addict",
-			FetishExperience.BASE_EXPERIENCE_GAIN,
-			PresetColour.GENERIC_ARCANE,
-			null,
-			Util.newArrayListOfValues("<span style='color:"+ PresetColour.GENERIC_GOOD.toWebHexString()+ ";'>Unlocks</span> <span style='color:"+ PresetColour.GENERIC_SEX.toWebHexString()+ ";'>cock addict tease</span>",
-					"<span style='color:"+ PresetColour.GENERIC_BAD.toWebHexString()+ ";'>Weak to</span> <span style='color:"+ PresetColour.GENERIC_SEX.toWebHexString()+ ";'>cock stud tease</span>"),
-			null) {
-		@Override
-		public String getDescription(GameCharacter owner) {
-			if(owner==null) {
-				return "This fetish relates to a person's desire for servicing cocks.";
-				
-			} else if(owner.isPlayer()) {
-				return "You are hopelessly addicted to cock. Large, small, fat, thin, you really don't care about the looks, just so long as it's pumping in and out of one of your holes...";
-				
-			} else {
-				return UtilText.parse(owner, "[npc.Name] is hopelessly addicted to cock.");
-			}
-		}
-		@Override
-		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
-			return getGenericFetishDesireDescription(target, desire, "others' cocks");
-		}
-		@Override
-		public String getAppliedFetishLevelEffectDescription(GameCharacter character) {
-			return getAppliedFetishAttackLevelEffectDescription(character, this, "cock addict tease");
-		}
-		@Override
-		public CorruptionLevel getAssociatedCorruptionLevel() {
-			return CorruptionLevel.TWO_HORNY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_PENIS_GIVING);
 		}
 	};
 	
@@ -912,16 +734,51 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.TWO_HORNY;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_PENIS_RECEIVING);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_PENIS_RECEIVING; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasPenis();
+		public boolean isTopFetish() { return true; }
+	};
+	
+	public static AbstractFetish FETISH_PENIS_RECEIVING = new AbstractFetish(60,
+			"cock addict",
+			"others' cocks",
+			"fetish_cock_addict",
+			FetishExperience.BASE_EXPERIENCE_GAIN,
+			PresetColour.GENERIC_ARCANE,
+			null,
+			Util.newArrayListOfValues("<span style='color:"+ PresetColour.GENERIC_GOOD.toWebHexString()+ ";'>Unlocks</span> <span style='color:"+ PresetColour.GENERIC_SEX.toWebHexString()+ ";'>cock addict tease</span>",
+					"<span style='color:"+ PresetColour.GENERIC_BAD.toWebHexString()+ ";'>Weak to</span> <span style='color:"+ PresetColour.GENERIC_SEX.toWebHexString()+ ";'>cock stud tease</span>"),
+			null) {
+		@Override
+		public String getDescription(GameCharacter owner) {
+			if(owner==null) {
+				return "This fetish relates to a person's desire for servicing cocks.";
+				
+			} else if(owner.isPlayer()) {
+				return "You are hopelessly addicted to cock. Large, small, fat, thin, you really don't care about the looks, just so long as it's pumping in and out of one of your holes...";
+				
+			} else {
+				return UtilText.parse(owner, "[npc.Name] is hopelessly addicted to cock.");
+			}
 		}
+		@Override
+		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
+			return getGenericFetishDesireDescription(target, desire, "others' cocks");
+		}
+		@Override
+		public String getAppliedFetishLevelEffectDescription(GameCharacter character) {
+			return getAppliedFetishAttackLevelEffectDescription(character, this, "cock addict tease");
+		}
+		@Override
+		public CorruptionLevel getAssociatedCorruptionLevel() {
+			return CorruptionLevel.TWO_HORNY;
+		}
+		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_PENIS_GIVING; }
 	};
 	
 	public static AbstractFetish FETISH_CUM_STUD = new AbstractFetish(60,
@@ -955,16 +812,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_CUM_ADDICT);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasPenis();
 		}
 	};
 	
@@ -1003,11 +850,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_CUM_STUD);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_CUM_STUD; }
 	};
 	
 	public static AbstractFetish FETISH_DEFLOWERING = new AbstractFetish(60,
@@ -1039,6 +884,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.FOUR_LUSTFUL;
 		}
+		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_PURE_VIRGIN; }
 	};
 	
 	public static AbstractFetish FETISH_PURE_VIRGIN = new AbstractFetish(60,
@@ -1104,11 +952,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ZERO_PURE;
 		}
-
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasVagina()&&(character.getHistory()!=Occupation.NPC_PROSTITUTE||Math.random()<=0.25f);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_DEFLOWERING; }
 	};
 	
 	public static AbstractFetish FETISH_MASTURBATION = new AbstractFetish(60,
@@ -1141,12 +987,6 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
 		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			// NOTE: Yes, this is correct, according to original switch statement.
-			return Util.newArrayListOfValues(this);
-		}
 	};
 	
 	
@@ -1154,67 +994,6 @@ public class Fetish {
 	// spanked during sex."),
 
 	// Effects:
-	
-	public static AbstractFetish FETISH_PREGNANCY = new AbstractFetish(60,
-			"pregnancy",
-			"being pregnant",
-			"fetish_pregnancy",
-			FetishExperience.BASE_RARE_EXPERIENCE_GAIN,
-			PresetColour.GENERIC_ARCANE,
-			Util.newHashMapOfValues(new Value<>(Attribute.FERTILITY, 5)),
-			Util.newArrayListOfValues("<span style='color:"
-					+ PresetColour.GENERIC_GOOD.toWebHexString()+ ";'>Unlocks</span> <span style='color:"+ PresetColour.GENERIC_SEX.toWebHexString()+ ";'>fertility tease</span> (Requires vagina)",
-					"<span style='color:" + PresetColour.GENERIC_BAD.toWebHexString() + ";'>Weak to</span> <span style='color:" + PresetColour.GENERIC_SEX.toWebHexString() + ";'>virility tease</span>"),
-			null) {
-		@Override
-		public String getDescription(GameCharacter owner) {
-			if(owner==null) {
-				return "This fetish relates to a person's desire for being pregnant.";
-				
-			} else if(owner.isPlayer()) {
-				return "You often find yourself fantasising about being impregnated, and the idea of being bred like an animal drives you crazy with lust.";
-				
-			} else {
-				return UtilText.parse(owner, "[npc.Name] has a fetish for being impregnated.");
-			}
-		}
-		@Override
-		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
-			return getGenericFetishDesireDescription(target, desire, "being pregnant");
-		}
-		@Override
-		public String getAppliedFetishLevelEffectDescription(GameCharacter character) {
-			return getAppliedFetishAttackLevelEffectDescription(character, this, "fertility tease");
-		}
-		@Override
-		public CorruptionLevel getAssociatedCorruptionLevel() {
-			return CorruptionLevel.TWO_HORNY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_IMPREGNATION);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasVagina();
-		}
-
-		@Override
-		public void onBeforeGeneratingDesires(GameCharacter character, List<AbstractFetish> availableFetishes) {
-			// Related fetishes cannot be loved and disliked at the same time:
-			availableFetishes.remove(FETISH_VAGINAL_RECEIVING);
-		}
-
-		@Override
-		public void onGeneratingDesiresForLikedFetishes(GameCharacter character,
-				List<AbstractFetish> availableFetishes) {
-			availableFetishes.remove(Fetish.FETISH_VAGINAL_RECEIVING);
-			availableFetishes.remove(Fetish.FETISH_PENIS_RECEIVING);
-			availableFetishes.remove(Fetish.FETISH_CUM_ADDICT);
-		}
-	};
 	
 	public static AbstractFetish FETISH_IMPREGNATION = new AbstractFetish(60,
 			"impregnation",
@@ -1251,32 +1030,54 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.TWO_HORNY;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_PREGNANCY);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_PREGNANCY; }
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return character.hasPenis() && character.getSexualOrientation()!=SexualOrientation.ANDROPHILIC;
-		}
-
-		@Override
-		public void onBeforeGeneratingDesires(GameCharacter character, List<AbstractFetish> availableFetishes) {
-			// Related fetishes cannot be loved and disliked at the same time:
-			availableFetishes.remove(FETISH_VAGINAL_GIVING);
-		}
-
-		@Override
-		public void onGeneratingDesiresForLikedFetishes(GameCharacter character,
-				List<AbstractFetish> availableFetishes) {
-			availableFetishes.remove(Fetish.FETISH_VAGINAL_GIVING);
-			availableFetishes.remove(Fetish.FETISH_PENIS_GIVING);
-			availableFetishes.remove(Fetish.FETISH_CUM_STUD);
-		}
+		public boolean isTopFetish() { return true; }
 	};
 	
+	public static AbstractFetish FETISH_PREGNANCY = new AbstractFetish(60,
+			"pregnancy",
+			"being pregnant",
+			"fetish_pregnancy",
+			FetishExperience.BASE_RARE_EXPERIENCE_GAIN,
+			PresetColour.GENERIC_ARCANE,
+			Util.newHashMapOfValues(new Value<>(Attribute.FERTILITY, 5)),
+			Util.newArrayListOfValues("<span style='color:"
+							+ PresetColour.GENERIC_GOOD.toWebHexString()+ ";'>Unlocks</span> <span style='color:"+ PresetColour.GENERIC_SEX.toWebHexString()+ ";'>fertility tease</span> (Requires vagina)",
+					"<span style='color:" + PresetColour.GENERIC_BAD.toWebHexString() + ";'>Weak to</span> <span style='color:" + PresetColour.GENERIC_SEX.toWebHexString() + ";'>virility tease</span>"),
+			null) {
+		@Override
+		public String getDescription(GameCharacter owner) {
+			if(owner==null) {
+				return "This fetish relates to a person's desire for being pregnant.";
+				
+			} else if(owner.isPlayer()) {
+				return "You often find yourself fantasising about being impregnated, and the idea of being bred like an animal drives you crazy with lust.";
+				
+			} else {
+				return UtilText.parse(owner, "[npc.Name] has a fetish for being impregnated.");
+			}
+		}
+		@Override
+		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
+			return getGenericFetishDesireDescription(target, desire, "being pregnant");
+		}
+		@Override
+		public String getAppliedFetishLevelEffectDescription(GameCharacter character) {
+			return getAppliedFetishAttackLevelEffectDescription(character, this, "fertility tease");
+		}
+		@Override
+		public CorruptionLevel getAssociatedCorruptionLevel() {
+			return CorruptionLevel.TWO_HORNY;
+		}
+		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_IMPREGNATION; }
+	};
+
 	public static AbstractFetish FETISH_TRANSFORMATION_GIVING = new AbstractFetish(60,
 			"transformer",
 			"transforming others",
@@ -1310,11 +1111,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.FOUR_LUSTFUL;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_TRANSFORMATION_RECEIVING);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_TRANSFORMATION_RECEIVING; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_TRANSFORMATION_RECEIVING = new AbstractFetish(60,
@@ -1350,11 +1152,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.TWO_HORNY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_TRANSFORMATION_GIVING);
 		}
 	};
 	
@@ -1393,13 +1190,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.FOUR_LUSTFUL;
 		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			// BUG: (?) This was set to empty in the old switch statement.
-			return super.getOppositeFetishes();
-		}
 		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_KINK_RECEIVING; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_KINK_RECEIVING = new AbstractFetish(60,
@@ -1436,12 +1232,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			// BUG: (?) This was set to empty in the old switch statement.
-			return super.getOppositeFetishes();
 		}
 	};
 	
@@ -1480,11 +1270,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
-
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_DENIAL_SELF);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_DENIAL_SELF; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_DENIAL_SELF = new AbstractFetish(60,
@@ -1520,11 +1311,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_DENIAL);
 		}
 	};
 	
@@ -1563,12 +1349,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_SUBMISSIVE);
-		}
 		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_SUBMISSIVE; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_SUBMISSIVE = new AbstractFetish(60,
@@ -1605,11 +1391,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_DOMINANT);
 		}
 	};
 	
@@ -1651,22 +1432,54 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.FIVE_CORRUPT;
 		}
-
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			// NOTE: Yes, this is correct, according to original switch statement.
-			return Util.newArrayListOfValues(this);
-		}
-
+		public boolean isContentEnabled() { return Main.game.isIncestEnabled(); }
+	};
+	
+	public static AbstractFetish FETISH_SADIST = new AbstractFetish(60,
+			"sadist",
+			"inflicting pain",
+			"fetish_sadist",
+			FetishExperience.BASE_EXPERIENCE_GAIN,
+			PresetColour.GENERIC_ARCANE,
+			Util.newHashMapOfValues(new Value<>(Attribute.DAMAGE_PHYSICAL, 5)),
+			Util.newArrayListOfValues(
+					"[style.boldExcellent(Unlocks)] sadistic [style.colourSex(sex actions)]",
+					"[style.boldExcellent(+5%)] to all [style.colourHealth("+Attribute.HEALTH_MAXIMUM.getName()+" damage)]",
+					"10% of all inflicted",
+					"[style.colourHealth("+Attribute.HEALTH_MAXIMUM.getName()+" damage)] is dealt",
+					"back to you as <span style='color:"+ Attribute.DAMAGE_LUST.getColour().toWebHexString()+ ";'>lust damage</span>",
+					"[style.boldArcane(+1 essence)] when critically",
+					" hitting enemies"),
+			null) {
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isIncestEnabled();
+		public String getDescription(GameCharacter owner) {
+			if(owner==null) {
+				return "This fetish relates to a person's desire for abusing others.";
+				
+			} else if(owner.isPlayer()) {
+				return "You love dishing out pain and humiliation, and causing others to suffer sends you absolutely wild with lust.";
+				
+			} else {
+				return UtilText.parse(owner, "[npc.Name] has a fetish for dealing out pain and humiliation.");
+			}
 		}
-
+		
 		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.INCEST);
+		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
+			return getGenericFetishDesireDescription(target, desire, "inflicting pain and humiliation on others");
 		}
+		
+		@Override
+		public CorruptionLevel getAssociatedCorruptionLevel() {
+			return CorruptionLevel.THREE_DIRTY;
+		}
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_MASOCHIST; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_MASOCHIST = new AbstractFetish(60,
@@ -1705,58 +1518,8 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
-
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_SADIST);
-		}
-		
-	};
-	
-	public static AbstractFetish FETISH_SADIST = new AbstractFetish(60,
-			"sadist",
-			"inflicting pain",
-			"fetish_sadist",
-			FetishExperience.BASE_EXPERIENCE_GAIN,
-			PresetColour.GENERIC_ARCANE,
-			Util.newHashMapOfValues(new Value<>(Attribute.DAMAGE_PHYSICAL, 5)),
-			Util.newArrayListOfValues(
-					"[style.boldExcellent(Unlocks)] sadistic [style.colourSex(sex actions)]",
-					"[style.boldExcellent(+5%)] to all [style.colourHealth("+Attribute.HEALTH_MAXIMUM.getName()+" damage)]",
-					"10% of all inflicted",
-					"[style.colourHealth("+Attribute.HEALTH_MAXIMUM.getName()+" damage)] is dealt",
-					"back to you as <span style='color:"+ Attribute.DAMAGE_LUST.getColour().toWebHexString()+ ";'>lust damage</span>",
-					"[style.boldArcane(+1 essence)] when critically",
-					" hitting enemies"),
-			null) {
-
-		@Override
-		public String getDescription(GameCharacter owner) {
-			if(owner==null) {
-				return "This fetish relates to a person's desire for abusing others.";
-				
-			} else if(owner.isPlayer()) {
-				return "You love dishing out pain and humiliation, and causing others to suffer sends you absolutely wild with lust.";
-				
-			} else {
-				return UtilText.parse(owner, "[npc.Name] has a fetish for dealing out pain and humiliation.");
-			}
-		}
-
-		@Override
-		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
-			return getGenericFetishDesireDescription(target, desire, "inflicting pain and humiliation on others");
-		}
-		
-		@Override
-		public CorruptionLevel getAssociatedCorruptionLevel() {
-			return CorruptionLevel.THREE_DIRTY;
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_MASOCHIST);
-		}
+		public AbstractFetish getOpposite() { return Fetish.FETISH_SADIST; }
 	};
 	
 	public static AbstractFetish FETISH_NON_CON_DOM = new AbstractFetish(60,
@@ -1791,26 +1554,6 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.FIVE_CORRUPT;
-		}
-		
-		@Override
-		public boolean isDisabled() {
-			return !Main.game.isNonConEnabled();
-		}
-
-		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_NON_CON_SUB);
-		}
-
-		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isNonConEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.NON_CON);
 		}
 	};
 	
@@ -1849,30 +1592,45 @@ public class Fetish {
 		}
 		
 		@Override
-		public boolean isDisabled() {
-			return !Main.game.isNonConEnabled();
-		}
-
+		public boolean isContentEnabled() { return Main.game.isNonConEnabled(); }
+		
 		@Override
-		public Collection<? extends AbstractFetish> getOppositeFetishes() {
-			return Util.newArrayListOfValues(FETISH_NON_CON_DOM);
-		}
-
+		public AbstractFetish getOpposite() { return Fetish.FETISH_NON_CON_DOM; }
+	};
+	
+	public static AbstractFetish FETISH_BONDAGE_APPLIER = new AbstractFetish(60,
+			"bondage applier",
+			"applying bondage",
+			"fetish_bondage_applier",
+			FetishExperience.BASE_EXPERIENCE_GAIN,
+			Util.newArrayListOfValues(PresetColour.CLOTHING_BLACK_STEEL, PresetColour.CLOTHING_GOLD, PresetColour.CLOTHING_GOLD),
+			null,
+			Util.newArrayListOfValues(
+					"[style.colourGood(Removes essence cost for sealing, servitude, and enslavement enchantments)]"),
+			null) {
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isNonConEnabled();
+		public String getDescription(GameCharacter owner) {
+			if(owner==null) {
+				return "This fetish relates to a person's desire for locking others into sealed clothing.";
+				
+			} else {
+				return UtilText.parse(owner, "[npc.Name] [npc.verb(love)] binding people up in clothing that they're unable to remove, and then taking advantage of their immobility...");
+			}
 		}
-
 		@Override
-		public void onGeneratingDesiresForLikedFetishes(GameCharacter character,
-				List<AbstractFetish> availableFetishes) {
-			availableFetishes.remove(Fetish.FETISH_SUBMISSIVE);
+		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
+			return getGenericFetishDesireDescription(target, desire, "others wearing sealed clothing");
 		}
-
 		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.NON_CON);
+		public CorruptionLevel getAssociatedCorruptionLevel() {
+			return CorruptionLevel.THREE_DIRTY;
 		}
+		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_BONDAGE_VICTIM; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_BONDAGE_VICTIM = new AbstractFetish(60,
@@ -1903,37 +1661,11 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
+		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_BONDAGE_APPLIER; }
 	};
 	
-	public static AbstractFetish FETISH_BONDAGE_APPLIER = new AbstractFetish(60,
-			"bondage applier",
-			"applying bondage",
-			"fetish_bondage_applier",
-			FetishExperience.BASE_EXPERIENCE_GAIN,
-			Util.newArrayListOfValues(PresetColour.CLOTHING_BLACK_STEEL, PresetColour.CLOTHING_GOLD, PresetColour.CLOTHING_GOLD),
-			null,
-			Util.newArrayListOfValues(
-					"[style.colourGood(Removes essence cost for sealing, servitude, and enslavement enchantments)]"),
-			null) {
-		@Override
-		public String getDescription(GameCharacter owner) {
-			if(owner==null) {
-				return "This fetish relates to a person's desire for locking others into sealed clothing.";
-				
-			} else {
-				return UtilText.parse(owner, "[npc.Name] [npc.verb(love)] binding people up in clothing that they're unable to remove, and then taking advantage of their immobility...");
-			}
-		}
-		@Override
-		public String getFetishDesireDescription(GameCharacter target, FetishDesire desire) {
-			return getGenericFetishDesireDescription(target, desire, "others wearing sealed clothing");
-		}
-		@Override
-		public CorruptionLevel getAssociatedCorruptionLevel() {
-			return CorruptionLevel.THREE_DIRTY;
-		}
-	};
-
 	public static AbstractFetish FETISH_EXHIBITIONIST = new AbstractFetish(60,
 			"exhibitionist",
 			"exposing themself",
@@ -1976,6 +1708,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
+
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_VOYEURIST; }
 	};
 	
 	public static AbstractFetish FETISH_VOYEURIST = new AbstractFetish(60,
@@ -2010,6 +1745,12 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
+		
+		@Override
+		public AbstractFetish getOpposite() { return Fetish.FETISH_EXHIBITIONIST; }
+		
+		@Override
+		public boolean isTopFetish() { return true; }
 	};
 	
 	public static AbstractFetish FETISH_BIMBO = new AbstractFetish(60,
@@ -2152,16 +1893,9 @@ public class Fetish {
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.THREE_DIRTY;
 		}
-
+		
 		@Override
-		public boolean isAllowed(GameCharacter character) {
-			return Main.game.isPenetrationLimitationsEnabled();
-		}
-
-		@Override
-		public EnumSet<ContentFlag> requiresContent() {
-			return ContentFlag.allOf(ContentFlag.PENETRATION_SIZE_LIMITATIONS);
-		}
+		public boolean isContentEnabled() { return Main.game.isPenetrationLimitationsEnabled(); }
 	};
 	
 	// Derived fetishes:
@@ -2333,17 +2067,10 @@ public class Fetish {
 	
 	// Access methods:
 	
-	public static List<AbstractFetish> allFetishes = new ArrayList<>();
-
+	public static List<AbstractFetish> allFetishes;
+	
 	public static Map<AbstractFetish, String> fetishToIdMap = new HashMap<>();
 	public static Map<String, AbstractFetish> idToFetishMap = new HashMap<>();
-
-	public static void addFetish(BasePlugin plugin, String fetishID, AbstractFetish fetish) {
-		fetish.assignID(plugin,fetishID);
-		fetishToIdMap.put(fetish, fetish.getId());
-		idToFetishMap.put(fetish.getId(), fetish);
-		allFetishes.add(fetish);
-	}
 	
 	/**
 	 * @param id Will be in the format of: 'innoxia_maid'.
@@ -2354,18 +2081,10 @@ public class Fetish {
 		return idToFetishMap.get(id);
 	}
 	
-	/**
-	 * Get ID from Fetish
-	 * 
-	 * @deprecated
-	 * @return Will Will be in the format of: 'innoxia_maid'.
-	 */
-	@Deprecated
 	public static String getIdFromFetish(AbstractFetish fetish) {
 		return fetishToIdMap.get(fetish);
 	}
 
-	/* Now assigned in FetishLoader.
 	static {
 		allFetishes = new ArrayList<>();
 		
@@ -2391,10 +2110,9 @@ public class Fetish {
 			}
 		}
 	}
-	*/
 	
 	public static List<AbstractFetish> getAllFetishes() {
-		return PluginLoader.getInstance().getFetishes().getAll();
+		return allFetishes;
 	}
 	
 }

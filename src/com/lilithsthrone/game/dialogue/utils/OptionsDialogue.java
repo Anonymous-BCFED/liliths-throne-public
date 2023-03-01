@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,7 +21,6 @@ import com.lilithsthrone.game.character.body.valueEnums.AgeCategory;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.Lactation;
 import com.lilithsthrone.game.character.fetishes.AbstractFetish;
-import com.lilithsthrone.game.character.fetishes.ContentFlag;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishPreference;
 import com.lilithsthrone.game.character.gender.AndrogynousIdentification;
@@ -1450,27 +1448,24 @@ public class OptionsDialogue {
 		
 		for(FetishPreference preference : FetishPreference.values()) {
 			String disabledMsg=null;
-			EnumSet<ContentFlag> requiredContent = fetish.requiresContent();
-			if(requiredContent.contains(ContentFlag.PENETRATION_SIZE_LIMITATIONS) && !Main.game.isPenetrationLimitationsEnabled()) {
-				disabledMsg="Penetrative size-difference";
-			}
-			if(requiredContent.contains(ContentFlag.NON_CON) && !Main.game.isNonConEnabled()) {
-				disabledMsg="Non-consent";
-			}
-			if(requiredContent.contains(ContentFlag.INCEST) && !Main.game.isIncestEnabled()) {
-				disabledMsg="Incest";
-			}
-			if(requiredContent.contains(ContentFlag.LACTATION) && !Main.game.isLactationContentEnabled()) {
-				disabledMsg="Lactation";
-			}
-			if(requiredContent.contains(ContentFlag.ANAL) && !Main.game.isAnalContentEnabled()) {
-				disabledMsg="Anal Content";
-			}
-			if(requiredContent.contains(ContentFlag.FEET) && !Main.game.isFootContentEnabled()) {
-				disabledMsg="Foot Content";
-			}
-			if(requiredContent.contains(ContentFlag.ARMPITS) && !Main.game.isArmpitContentEnabled()) {
-				disabledMsg="Armpit Content";
+			if(!fetish.isContentEnabled()) {
+				if (Fetish.FETISH_SIZE_QUEEN.equals(fetish)) {
+					disabledMsg = "Penetrative size-difference";
+				} else if (Fetish.FETISH_NON_CON_DOM.equals(fetish) || Fetish.FETISH_NON_CON_SUB.equals(fetish)) {
+					disabledMsg = "Non-consent";
+				} else if (Fetish.FETISH_INCEST.equals(fetish)) {
+					disabledMsg = "Incest";
+				} else if (Fetish.FETISH_LACTATION_SELF.equals(fetish) || Fetish.FETISH_LACTATION_OTHERS.equals(fetish)) {
+					disabledMsg = "Lactation";
+				} else if (Fetish.FETISH_ANAL_RECEIVING.equals(fetish) || Fetish.FETISH_ANAL_GIVING.equals(fetish)) {
+					disabledMsg = "Anal Content";
+				} else if (Fetish.FETISH_FOOT_RECEIVING.equals(fetish) || Fetish.FETISH_FOOT_GIVING.equals(fetish)) {
+					disabledMsg = "Foot Content";
+				} else if (Fetish.FETISH_ARMPIT_RECEIVING.equals(fetish) || Fetish.FETISH_ARMPIT_GIVING.equals(fetish)) {
+					disabledMsg = "Armpit Content";
+				} else {
+					disabledMsg = "Unspecified Content";
+				}
 			}
 			if(disabledMsg!=null) {
 				// Disabled fetishes to default, the fetish won't be a valid option for the generator anyway

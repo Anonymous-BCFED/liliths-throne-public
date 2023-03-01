@@ -719,11 +719,9 @@ public class ItemEffectType {
 			List<AbstractFetish> fetishesToAdd = new ArrayList<>();
 			List<AbstractFetish> fetishesToRemove = new ArrayList<>();
 			for(AbstractFetish f : Fetish.getAllFetishes()) {
-				// Remove possible fetish modifications based on user content settings:
-				if(!f.isDisabled()) {
+				if(!f.isContentEnabled()) {
 					continue;
 				}
-				
 				if(f.getFetishesForAutomaticUnlock().isEmpty()) {
 					if(target.hasFetish(f)) {
 						fetishesToRemove.add(f);
@@ -733,11 +731,11 @@ public class ItemEffectType {
 					}
 				}
 			}
-
+			
 			if((Math.random()>0.33f && !fetishesToAdd.isEmpty()) || fetishesToRemove.isEmpty()) {
 				AbstractFetish f = fetishesToAdd.get(Util.random.nextInt(fetishesToAdd.size()));
 				target.addFetish(f);
-				// TODO: AbstractFetish-specific method for overriding this?
+				
 				return "<p style='text-align:center;'>"
 						+(target.isPlayer()
 						?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
@@ -749,7 +747,7 @@ public class ItemEffectType {
 			} else {
 				AbstractFetish f = fetishesToRemove.get(Util.random.nextInt(fetishesToRemove.size()));
 				target.removeFetish(f);
-				// TODO: AbstractFetish-specific method for overriding this?
+				
 				return "<p style='text-align:center;'>"
 						+(target.isPlayer()
 						?"A staggering wave of arcane energy crashes over you, the sheer strength of which almost causes you to black out."
