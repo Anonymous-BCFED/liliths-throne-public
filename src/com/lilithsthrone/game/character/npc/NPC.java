@@ -110,6 +110,7 @@ import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.game.sex.sexActions.SexAction;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.modding.PluginLoader;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.XMLSaving;
@@ -2611,8 +2612,6 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		unpairedFetishMap.put(Fetish.FETISH_CROSS_DRESSER, true);
 		unpairedFetishMap.put(Fetish.FETISH_INCEST, true);
 		unpairedFetishMap.put(Fetish.FETISH_MASTURBATION, true);
-		
-		PluginLoader.getInstance().addToUnpairedFetishMap(unpairedFetishMap);
 		
 		for(Entry<AbstractFetish, Boolean> entry : unpairedFetishMap.entrySet()) {
 			currentTopFetish = entry.getKey();

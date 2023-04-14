@@ -34,8 +34,6 @@ import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.inventory.enchanting.PossibleItemEffect;
 import com.lilithsthrone.game.sex.SexType;
 import com.lilithsthrone.game.sex.sexActions.SexAction;
-import com.lilithsthrone.modding.fetishes.FetishGroup;
-import com.lilithsthrone.modding.fetishes.FetishLoader;
 import com.lilithsthrone.modding.perks.PerkLoader;
 
 public final class PluginLoader {
@@ -54,8 +52,7 @@ public final class PluginLoader {
 	private File modDir;
 	private DocumentBuilderFactory dbf;
 	private DocumentBuilder docBuilder;
-	
-	private FetishLoader fetishes;
+
 	private PerkLoader perks;
 
 	public static PluginLoader getInstance() {
@@ -67,7 +64,6 @@ public final class PluginLoader {
 	public PluginLoader() {
 		System.err.println("Plugin System initializing...");
 		
-		this.fetishes = new FetishLoader(this);
 		this.perks = new PerkLoader(this);
 		
 		this.dbf = DocumentBuilderFactory.newInstance();
@@ -230,14 +226,6 @@ public final class PluginLoader {
 	}
 
 	//////////////////////////////////////////////////
-	// Fetishes
-	//////////////////////////////////////////////////
-	public FetishLoader getFetishes() { return fetishes; }
-	public List<FetishGroup> getAllFetishGroups() {
-		return fetishes.getAllFetishGroups();
-	}
-
-	//////////////////////////////////////////////////
 	// PERKS
 	//////////////////////////////////////////////////
 	public PerkLoader getPerks() { return perks; }
@@ -278,14 +266,6 @@ public final class PluginLoader {
 				p -> p.onAfterGenerateDesires(character, availableFetishes, desireMap, negativeMap, desiresAssigned));
 	}
 
-	public void addToPairedFetishMap(Map<AbstractFetish, AbstractFetish> pairedFetishMap) {
-		this.fetishes.addToPairedFetishMap(pairedFetishMap);
-	}
-
-	public void addToUnpairedFetishMap(Map<AbstractFetish, Boolean> unpairedFetishMap) {
-		this.fetishes.addToUnpairedFetishMap(unpairedFetishMap);
-	}
-
 	public void onSexActionFetishesForEitherPartner(SexAction sexAction, GameCharacter characterPerformingAction,
 			Map<GameCharacter, Set<AbstractFetish>> characterFetishes,
 			Map<GameCharacter, Set<AbstractFetish>> characterFetishesForPartner, List<CoverableArea> cummedOnList) {
@@ -295,15 +275,7 @@ public final class PluginLoader {
 			List<PossibleItemEffect> possibleEffects) {
 		plugins.forEach(p -> p.onNPCGenerateTransformativePotion(npc, target, possibleEffects));
 	}
-
-	public void registerRelatedStockFetishes(AbstractFetish dom, AbstractFetish sub) {
-		this.fetishes.registerRelatedStockFetishes(dom,sub);
-	}
-
-	public void registerLonerStockFetish(AbstractFetish f) {
-		this.fetishes.registerLonerStockFetish(f);
-	}
-
+	
 	public Set<BasePlugin> getAllPlugins() {
 		return plugins;
 	}

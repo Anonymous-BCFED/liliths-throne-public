@@ -15,9 +15,6 @@ import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.inventory.enchanting.PossibleItemEffect;
 import com.lilithsthrone.game.sex.SexType;
-import com.lilithsthrone.modding.fetishes.FetishGroup;
-import com.lilithsthrone.modding.fetishes.LooseFetishGroup;
-import com.lilithsthrone.modding.fetishes.RelatedFetishGroup;
 
 /**
  * @author Anon
@@ -30,9 +27,6 @@ public class BasePlugin {
 	public PluginMetadata metadata;
 
 	public HashSet<GameCharacter> providedGameCharacters = new HashSet<GameCharacter>();
-
-	public List<AbstractFetish> fetishes = new ArrayList<AbstractFetish>();
-	private List<FetishGroup> fetishGroups = new ArrayList<FetishGroup>();
 
 	private List<AbstractPerk> perks = new ArrayList<AbstractPerk>();
 
@@ -62,46 +56,6 @@ public class BasePlugin {
 	 * Do stuff in here to start up this plugin
 	 */
 	public void onStartup() {}
-
-	/**
-	 * Declare two fetishes related by a dominant(top)/submissive(bottom)
-	 * relationship.
-	 */
-	protected final RelatedFetishGroup declareRelatedFetishes(AbstractFetish dominant, AbstractFetish submissive) {
-		RelatedFetishGroup rfg = new RelatedFetishGroup(dominant, submissive);
-		fetishGroups.add(rfg);
-		this.fetishes.add(dominant);
-		this.fetishes.add(submissive);
-		return rfg;
-	}
-
-	/**
-	 * Declare a fetish that is unrelated to other fetishes.
-	 */
-	protected final LooseFetishGroup declareLooseFetish(AbstractFetish loner) {
-		return this.declareLooseFetish(loner, true);
-	}
-
-	/**
-	 * Declare a fetish that is unrelated to other fetishes.
-	 */
-	protected final LooseFetishGroup declareLooseFetish(AbstractFetish loner, boolean forceOnVictims) {
-		LooseFetishGroup lfg = new LooseFetishGroup(loner, forceOnVictims);
-		fetishGroups.add(lfg);
-		this.fetishes.add(loner);
-		return lfg;
-	}
-
-	/**
-	 * @return All AbstractFetishes defined by this plugin.
-	 */
-	public final List<AbstractFetish> getFetishes() {
-		return fetishes;
-	}
-
-	public final List<FetishGroup> getFetishGroups() {
-		return fetishGroups;
-	}
 	
 	protected final void declarePerk(String perkID, AbstractPerk perk) {
 		Perk.addPerk(this, perkID, perk);
