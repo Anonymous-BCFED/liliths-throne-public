@@ -3618,7 +3618,7 @@ public class PhoneDialogue {
 					+ "<p style='width:100%; text-align:center;'>"
 						+ "Nocturnality: "+Util.capitaliseSentence(subspeciesSelected.getNocturnality().getName())
 						+ "<br/>"
-						+ "Aquatic: "+(subspeciesSelected.isAquatic(null)?"Yes":"No")
+						+ "Aquatic: "+(subspeciesSelected.isAquatic()?"Yes":"No")
 						+ "<br/>"
 						+ "Leg configuration: "+Util.capitaliseSentence(bodyForSubspeciesSelected.getLegConfiguration().getName())
 						+ "<br/>"
