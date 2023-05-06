@@ -7,30 +7,296 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Patch notes:
 	
 	Contributors:
-		Added ability to let friendly occupants take on some of the more mundane slave jobs (Maid, Security guard, Librarian, Cook, Lab assistant, Office worker, and Waitress). (PR#1560 by Maxis010)
-		Removed the need to add content checks to multiple locations when adding new content controlled fetishes. (PR#1600 by Maxis010)
-		Fixed bug during sex scenes where a background error could be thrown if an NPC who was not involved in the sex scene tried to equip clothing. (by AceXP)
-		Bugfixes for GuestJobs PR after merge. (PR#1755 by Maxis010)
-		Added support for separate naming for aquatic subspecies that aren't mer-tailed. (PR#1489 by Stadler76)
+		Fixed issue where player-summoned elementals were not considered part of the player's team for damage calculations, meaning for harder difficulty settings their damage was scaled the same as that of enemies. (by TractorsAttic)
+		Fixed parsing bug in Natalya's meeting scene during Helena's romance quest, and fixed a potential NullPointerException related to accessing character present IDs. (by Cognitive Mist)
+		Improved getSubspeciesFromBody() method, which makes loading save files significantly faster, especially for large saves in games with many modded subspecies. (PR#1754 by SightglassCat)
+		Added 'light red' and changed 'light pink' to 'pink' for salamander scale colours, added missing equip text for the nursing bra, and fixed some inconsistencies in Natayla's new content. (PR#1757 by MintyChip)
+		Added pattern support to both micro bikini clothing items. (PR#1759 by DSG)
+		Added two new clothing items; 'fedora' (head slot, androgynous, sold by Nyan); and 'trenchcoat' (over-torso slot, androgynous, sold by Nyan). (PR#1761 by DSG)
+		Fixed missing IDs and paths for anonymous-classed NPCs. (PR#1762 by SightglassCat)
+	
+	Image & Character Imports:
+		PLEASE NOTE: All imported images for your player character will no longer work, due to the image folder location being changed.
+		Custom images for your player character are now stored in the same manner as custom images for non-unique NPCs, that is, in the 'data/images' folder instead of the 'res/images' folder. This allows you to have unique images for your player character in different save game files.
+	
+	Clothing:
+		The Butler's Jacket no longer obscures the finger slot.
+		Updated all of the old formatting for clothing displacement/removal text in clothing files.
+	
+	Sex:
+		Moved foot-to-mouth sex actions from the reverse cowgirl position to the cowgirl position.
+	
+	Other:
+		Added text to make it more obvious that a slave is losing 1 affection towards you due to being woken up at the start of interacting with them while they're sleeping.
+		Elementals are now able to use the save/load transformation menu correctly.
+		When loading a TF preset the dialogue scene now moves back to the 'core' TF dialogue, so as to give an indication that the TF has been applied.
+		Made the layout of multi-breast option buttons slightly more logical.
+	
+	Bugs:
+		Typo & parsing fixes and minor dialogue alterations.
+		Fixed bug where Hannah would not return to the bar after encountering her there for the first time.
+		Concealed subspecies bonus text no longer inadvertently reveals their race in the tooltip text.
+		If a character has the 'Serpent-tailed' leg configuration, any change to the length of their tail is now correctly restored when saving & loading games.
+		Added missing 'MURK_BACK' dialogue node in the pregnancy roulette scenes.
+		Removed references to the player impregnating Bunny if it was actually Loppy who ended up impregnating her during a threesome.
+		Fixed numerous instances of scripting errors related to the change of the NPC.hourlyUpdate() method to take in an int argument (showing as 'Scripting parsing error: X.hourlyUpdate()' in the error.log file).
+		Fixed bug where you could bypass the entry fee for Pix's gym if you talked to her and then simply moved forwards into the gym.
+		Saving a transformation preset for an elemental will no longer make the save/load transformation menu inaccessible.
+		Lilaya will now correctly transform her genitalia back to having a pussy and no cock after sex.
 	
 	
-	[x] PR#1560 - guest jobs
-		[x] check all files
-		[x] testing
-			[x] set jobs
-			[x] encounters
-			[x] sex when slave + occupant on tile
-		[x] add security & waiter
-			[x] handle interaction/responses
-		[x] slave lounge dialogue
-	[x] test journal fetish page
+	[] bugs
+		[x] Test Hannah repeats
+		[x] Tail long length can be changed, but it's not saved so reverts to 500% on load
+			Saves do not work properly with lamia bodies over 60’ long and will reset to 60’ long upon loading despite there being a hard cap of 1000% of your bipedal height
+		[x] underewear
+		from: I don't know if this has been reported before but multiple pregnancies
+		[-] Hannah spawning as sheep-girl?
+		[x] MURK_BACK dialogue not found
+		[x] "Yeah... Sure..." mugger response not fitting with rest of dialogue
+		[x] "We've done as you asked, but that's going too far." should be "I've done"
+		[-] the game might say the ID is "83.DominionAlleywayAttacker", but according to the save file the ID is "83,DominionAlleywayAttacker" (with a comma), which is the actual folder name you need to use.
+			[x] Also custom images for the player character still go in res where they always were, which is somewhat confusing
+		[x] considering bunny told me i got her pregnant, i dont think this should be possible? -> "Bunny has ended up getting impregnated by Loppy"
+		[x] left in TODO text "go to the spa and stop outside the showers"
+		[x] take in the sight of [npc.her][npc.breasts] -> no space
+		[x] then you might quality for silver -> should be qualify
+		[x] "Encourage cum on pecs" sex action title should have been tits
+		[x] Happens in Amazon's camp, when opting to train with Aurokaris, doesn't matter which training option you pick and doesn't matter whether you duel her or not.
+			Happen immediately after either winning (and I presume losing) to Aurokaris or Declining the Duel.
+				Scripting parsing error: aurokaris.hourlyUpdate()
+				TypeError: Can not invoke method [jdk.internal.dynalink.beans.SimpleDynamicMethod void com.lilithsthrone.game.character.npc.fields.Aurokaris.hourlyUpdate(int)] with the passed arguments;
+					 they do not match any of its method signatures. in <eval> at line number 1
+		[x] Bug With the new Gym : "if you choose a talk option after the introdction without purchasing a membership you can just "walk" past Pix and use the facilities."
+			it marks as if you had purchased a day membership without deducting the money. all the base workouts are unlocked. but hannah refuses to talk due no membership. 
+		[x] Bug where you lose 1 affection every time you interact with an idle slave is still present. I can repeatedly interact with the slave 200x times to drive their affection from 100 to -100.
+			Pent-up status causes loss of affection (-1) on every interaction with a slave that has it. This is repeatable.
+			Additionally, slaves can gain pent-up before 24 hours have passed since a sexual interaction.
+		[-] all the options to enter Zaranix's home are greyed out
+		[x] "to go the Harpy Nests"
+		[-] Axel: Manage clothing
+			Axel can't find a piece of Axel's clothing... 'ANUS' (This is a bug...)
+		[x] After being taken for walkies and eating out a stranger's pussy, NPC owner thinks I sucked a cock.
+			"Could't resist her cock, huh, Slave?" she asks, "Me and...
+		[x] "mroe"
+		[x] "better judement"
+		[x] Shiva.xml - body xml file
+			When this file is active, the entire Save/Load system for Transformation templates does not respond. I did not modify this file, so something in the game must've corrupted it. Sorry I can't be more help
+			[x] fix missing elemental svg error
+			[x] TF save/load support for elementals
+		[x] when loading a TF preset, it should move dialogue back to TF menu
+		[x] Player summoned elementals are not considered as part of the players team for damage calculations. Meaning for harder difficulty settings their damage is scaled the same as that of enemies. E.g. 4x instead of 0.25x on Lilith difficulty.
+			patch file shared
+		[x] foot worship is available in reverse cowgirl instead of cowgirl
+		[x] Butler's Jacket obscures the Finger slot
+		[x] "You pulls your gloves off."
+		[-] some piercings from npcs will give colors impossible to get from a dye brush
+		[x] Lilaya seems to have lost her vagina. It happened after the threesome with her and Rose after being caught in her room, where Lilaya grew a cock. 
+			I didn't checked if she had a vagina during that scene, but I suppose that what happened was that she grew the cock, lost the vagina and after the scene she lost one but didn't regained the other.
+			When replaying that scene again, but with her using her vagina, she loses it again afterwards
+		[-] getContent() missing in node 'Azariel's Job' - Manage Job when in player's room
+		[-] a lot of characters have multiple breasts right now, and I have that setting turned off.
+		[x] Cognitive Mist report
+			res/txt/places/dominion/slaverAlley/helenaRomance.xml line 697
+				change pc.hasFlag to flags.hasFlag
+			src/com/lilithsthrone/game/occupantManagement/slave/SlaveJob.java lines 100 and 102
+				check for null before .size()
+				- or -
+				src/com/lilithsthrone/world/Cell.java line 297
+				never return null
 	
-	[] PR#1489
-		[] test dragon names
+	[] SS messages
 	
-	Character details to PP
+	[] PRs
 	
-	[] Add spa jobs for friendly occupants
+	
+	[] Minotaur-boy yoga instructor
+		[] Brahman
+		[] Update Pix and Hannah talk about him (suspicious but he seems good at his job)
+		[] yoga sessions at 12:00 every day
+			[] a couple of female students join in too
+			[] if player is not female
+				[] gain 24-hour (questionable) buff from arcane yoga (+resistances, but weakness to cow-morphs)
+			[] if player is female, he suggests ever more lewd poses (over three sessions)
+				[] gain 24-hour (questionable) buff from arcane yoga (+resistances, but +fertility and weakness to cow-morphs)
+				[] 1 - positions seem to be focused a lot on bending over in front of him while he talks of the miracle of life
+				[] 2 - more bending over and spreading legs while talk of fertility (at end get sudden desire to be bred by him, warning that next time might be even further)
+				[] 3 - naked yoga with making player present herself and imagine being impregnated
+					[] at end, Brahman impregnates other two students
+					[] Brahman stands behind player and tells them to focus on the heat of his erect cock against their pussy
+						[] snap out of it
+							[] quickly leave, with Brahman saying to return whenever you want
+						[] beg to be impregnated
+							[] He fucks player and creampies
+		
+	[] prioritise res races over mod folder - or mod folder different ids
+		
+	[] is there anyway you can make it so slimes can put eggs in people without needing a vagina?
+		Currently, you have to grow a vagina to put eggs in people even if you are already slime pregnant
+	
+	[] Add Wolfgang & Karl art
+	
+	[] main quest
+		[x] Add Enforcer station
+			[x] map
+			[x] places
+			[x] dialogue
+			[x] txt
+		[x] Only open to public from 8:00-20:00
+		[] Receptionist
+			[x] Human - Sterope Hippos
+				[x] Olive skin, emerald eyes, dark brown hair, beautiful face
+				[x] Aloof, derisive
+				[x] mid-30s
+				[x] bun hair, D-cups, womanly hips, hourglass figure
+			[x] Intro
+				[x] If not met, when enter tile set her to pregnancy stage 3
+				[x] If fucked, she sternly says not to mention her private life while she's at work
+			[x] ribbon corrections
+			[x] Change to partial horse-girl
+			[x] Talk
+				[x] Work - Enforcers are managing with the huge influx of refugees, but after dark the alleyways are dangerous
+				[x] Career 
+				[x] Lunette - She says that her daughters are causing a huge problem, but it's not for her to question an elder lilin's motives
+					[x] Besides, there are worse fates than being turned into a succutaur's cock sleeve...
+					[x] Can flirt - she says to find her in The Centaur's Sword after 21:00
+				[x] Ask to see SWORD group
+					[x] She says that they don't mix with the rest of the Enforcers
+					[x] Rumour is that the sergeants were part of the group who dealt with the criminals behind the bank heists of 76, before SWORD was even formed
+					[x] Says that they caused a fuss in Dominion about five years ago and were demoted and sent here
+						[x] There was talk that a recognised daughter of the elder lilin Lasielle, who'd been given a high-ranking position in the Enforcers, had been arrested
+						[x] That elder daughter hasn't been seen since, and a week later the group arrived here in Elis
+			[x] Pregnancy if no sex and in empty world
+				[x] hourly update
+					[x] 20% roll 01:00
+					[x] mother's milk 8:00
+			[x] hourlyUpdate needs hour passed in as argument
+				[x] refactor all hourly update methods
+			[] Need reference in initial encounter for if player is detected as an Enforcer
+			[] Centaur's Sword
+				[x] Map
+					[x] Add locked door and stable
+					[x] Writing
+				[x] Make sure she doesn't go to where Fae is
+				[] In tables area
+					[] 50/50 for her to be with centaur
+						[] centaur gropes Sterope and asks if you're a worthless slut like she is
+						[] join her (if feminine)
+							[] If either pregnant
+								[] double cock sucking
+							[] If not pregnant
+								[] She's keen to rent the stables (large room with high ceilings)
+								[] Before tied up, double TF potion option (into fully furry horse-girls)
+									[] If fully-furry from previous sex scene, she's paid for Kheiron to get a feral stone & can TF into feral
+										[] If she gets impregnated, she's stuck as feral for a while
+								[] You're both tied up
+									[] Get punished
+									[] Fucked
+						[] lose the centaur - dominant or confident
+							[] She's revealed to be super kinky when not on duty
+							[] She's keen to rent the stables (large room with high ceilings)
+							[] If pregnant
+								[] She sucks cock
+							[] If not pregnant
+								[] Before tied up, TF potion option (into fully furry horse-girl)
+									[] If fully-furry from previous sex scene, she's paid for Kheiron to get a feral stone & can TF into feral
+								[] You tie her up
+									[x] Sex: Fuck her
+									[x] BDSM punishments: spanking, whipping, degrading talk - sadist variations
+									[] Clothing: nipple clamps, ring gag, blindfold, dildo, butt plug
+										[] test that clothing equipped at start of sex
+								[] After sex, if TF'd her into fully furry horse-girl, can convince not to TF back
+						[] Decline
+							[] She leaves with centaur - move to stable
+							[] Going to the back door, you can faintly hear neighing and rhythmic thudding...
+		[] SWORD group in room at end of corridor - just over a dozen of them
+			[] Two leaders who are in late 60's
+				[] Wolf-boy
+					[] Scarred, permanent scowl on his face, equipment looks worn and heavy but he moves with it as though it were nothing
+					[] Elle ribbons, but 2nd class graduate, one star
+				[] Otter-girl
+					[] Has a fake smile on her face, weary look in her eyes, left arm is covered in burn marks
+					[] Elle ribbons, 1st class graduate, two stars
+			[] Rest of group look to have an average age of around 50
+				[] None of them look like the ones who are on duty in the town hall, realise that those guards must be separate to this group
+			[] Highly competent, although extremely cynical after being demoted and assigned to Elis when they tried to expose corruption
+			[] Conversation
+				[] Need reference for if player is detected as an Enforcer
+				[] Otter-girl says who you are and recounts your journey - flashing file at you that bears the words ORICL TOP SECRET on the front
+					[] Did you really think you could move in with a recognised daughter of an elder lilin and do all that you've done without triggering an alarm
+				[] They reveal that they already know about the situation, and that you should watch yourself
+				[] Say they'll help, but not for Minotallys or you, but because the innocent people of Elis will be the ones to suffer
+		[] They say that they need help with an operation before they can help plan the defence of Elis
+			[] But first:
+				[] They know that you went to Themiscyra and shortly after they got intel that Lunexis has gone missing
+				[] Tell them that you were responsible
+				[] They say that they'll trust you
+		[] Criminal gang has set up here in Elis and is exploiting the refugees
+			[] You've taken down an elder lilin's daughter, so you can help them take down two more
+			[] A daughter of Lovienne is the one behind the gang, she's kidnapping people and using her status to have them enslaved and shipped off to Dominion
+			[] This group has arrested dozens of gang members, but they won't be broken until the leader is stopped
+			[] In their eyes, Minotallys is one of the corrupt elite and can't be trusted
+			[] You clearly have some kind of status, so if it's discovered who's behind the operation then you'll take the fall
+				[] Acting against demons is risky at the best of times, but confronting a daughter of an elder lilin is sure to bring the hammer down on them
+				[] Won't wear any Enforcer insignia
+				[] Enforcer weapons are known to end up in the hands of gangs due to corruption, so even though they'll be using their standard weapons they'll have plausible deniability
+			[] The gang meets at their headquarters every Tuesday night
+			[] Can't arrest succubus as that would bring too much heat down on them
+			[] Instead they're betting on the fact that she'll return to Dominion after her headquarters is raided
+	[] Two birds with one stone
+		[] Add balaclava for Enforcers
+			[] No markings on uniforms (they don't want to be recognised)
+		[] Add abandoned bakery
+			[] first floor
+			[] ground floor
+			[] basement
+		[] Add gang members
+		[] Add succubus
+			[] Submissive, innocent-acting
+			[] She seduces people into being her slaves
+		[] Quest
+			[] Meet with Otter-girl and go into building
+				[] She explains that the team doesn't want to be seen entering via the front door, so you're going to force entry through an adjacent basement
+			[] Otter-girl leads (asks if you were expecting the big tough wolf to be the first in - don't worry he'll be joining soon)
+				[] Says to ignore any slaves - they'll be freed when the Enforcers show up
+			[] Gang member fight
+				[] Slaves here
+			[] Proceed upstairs and into more gang member fight
+			[] Upstairs to first floor
+			[] Wolf-boy and others enter through wall of adjacent building
+			[] Succubus fight
+			[] She teleports away and Enforcers leave before others show up
+			[] Quickly exit as more gang members show up
+				[] Optional fight to beat all gang members and unlock basement - loot inside
+	[] Back at Enforcer station
+		[] Enforcers say they'll draw up a plan of how to defend Elis
+	[] Report back to Arion
+		[] He says he'll come to hear their plan and to take him there whenever you're ready
+	
+	[] Shadow & Silence content
+	
+	[] Bank
+		[] have personal clerk assigned to you (smart incubus)
+		[] talk
+			[] demons - only demons are permitted to work in the bank as during the human rebellion insiders brought the financial system to its knees
+			[] no competition - there was competition in the past, but Dominion Bank out-competed them (no monopoly laws)
+			[] flames - coins in 8 denominations corresponding to elder lilin & Lilith (1, 10, 100, 1_000, 10_000, 100_000, 1M, 10M), which contain a certain weight of Lilithium. Can be verified via arcane reaction, which produces a cold flame, hence the name
+			[] no cards - clerk says such an invention is not necessary as the arcane properties of Lilithium allow the authorities to see the arcane signature of all who have held it, so tracking someone via their spending is already possible
+		[] Add ability to take out loan
+			[] interest calculation
+			[] make it a repeatable side quest "Pay debts"
+			[] Failure to repay within the time limit:
+				[] Deducts payment from deposit box
+				[] Sends bounty hunters after player
+					[] They take payment from player's inventory
+					[] Also lewds
+	
+	[] Felicia
+	
+	[] Eisek
+	
+	[] Elemental spell side quest
+		[] Start with Arcane in Dominion
 	
 	[] PRs
 		[] #1724
@@ -57,13 +323,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	###################
 	
-	[] new item status effect applications might need to be only applied conditionally
-	
-	[] status effect tooltip change to "effect (time)"
-	
-	[] add FOOD_JUNK and FOOD_QUALITY
-	
-	[] Nocturnality for subspecies encounters
+	did i ever suggest a "drink until full term" option for mothers milk? cause if not, there it is.
+	also it seems like irresistible requests doesn't work for things like "object to rough"
+	also also, there should be an option outside of rough sex to a partner the option to use their full penis length even in a situation where it would cause discomfort
+	I'd suggest it as something the player can request as well but idk if that's even needed given the freedom the player has.
 	
 	[] sleeping slave expansion
 		[] fuck them as they sleep
@@ -75,15 +338,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			Under 'core'
 			Only works if target is already of the subspecies's race
 				
-	[] Add Elis bank
-		[] simple map - foyer and counters
-		[] store money and items (bank inventory)
-			[] when opening account, they recognise Lilaya's address and give player top tier account, which is item teleportation (access bank items at any branch)
-		[] sperm bank
-			[] paid for cum
-			[] pay to get cum
-	[] Add an associated bank in Dominion
-	
 	Add perks:
 		Regeneration (passive health recovery rate doubled)
 		Second wind (can choose not to orgasm, and instead reset arousal in sex)
@@ -96,24 +350,11 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] "getMinimumDepthForSizeUncomfortable seems to be broken"
 		
-	[] Pix
-		[] pregnancy reaction
-		[] Add gym map
-		[] Armpit licking
-		
-	[] Vicky
-		[] after submitting to her 3 times, she claims you
-		[] subsequent visits lead into one of:
-			[] under desk oral
-			[] anal
-			[] vaginal
-			[] rides you
-			[] bring her lunch
-				[] hugs you while eating
-			[] evening company
-				[] cuddles
-			[] business help
-			
+	[] Shadow/Silence
+		[] Bounty hunter board
+			[] Criminal tagged
+			[] Dispute resolution
+			[] Enforcer backup
 	
 	[] Finch
 	
@@ -370,8 +611,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] serpent-serpent sex position 'mating coil'
 	
-	[] option to cast the soothing waters spell to clean the dumpster diver and temporarily remove the musk content from sexing them
-	
 	[] need mute dialogue handling for offspring encounters
 	
 	[] Skull head option for demons, preferably able to take morph type into account
@@ -380,7 +619,24 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] cock content
 		[] strip dice poker in tavern to "steal" clothing
 	
-	
+	[] Elis Gym
+		[] Extremely fit hellhound
+		[] Talk
+			[] Pix's daughter (Pix got carried away while riding an exhausted succubus's cock and got knocked up)
+			[] Worked with Pix for a while, then left to work for aunt at Wall's End, but didn't last long and then opened this gym
+		[] Sex
+			[] sex with cock/pussy focus (can request to grow cock)
+		[] exercise together
+			[] face-fucked/sitting after doing bench press
+			[] eat out/blowjob after sit-ups
+			[] ride cock after squats
+			[] wrestle
+				[] if hellhound wins, she fucks pussy or rides cock
+					[] mating press
+					[] cowgirl
+				[] if player wins, can choose what to do
+					[] mating press
+					[] cowgirl
 			
 	[] Ceridwen
 		[] Offer to help
@@ -407,8 +663,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] Can have sex
 	
 			
-			
-	
 	[] cuddle actions?
 	
 	[] dungeon additions
@@ -452,25 +706,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] Armpit worship (they lick player's armpits before fucking them)
 	
 	[] Bad end losing at the slime queen where you're forced to pretend to invade and rape her every week
-	
-	[] Gym
-		[] Extremely fit hellhound
-		[] Talk
-			[] Pix's daughter (Pix got carried away while riding an exhausted succubus's cock and got knocked up)
-			[] Worked with Pix for a while, then left to work for aunt at Wall's End, but didn't last long and then opened this gym
-		[] Sex
-			[] sex with cock/pussy focus (can request to grow cock)
-		[] exercise together
-			[] face-fucked/sitting after doing bench press
-			[] eat out/blowjob after sit-ups
-			[] ride cock after squats
-			[] wrestle
-				[] if hellhound wins, she fucks pussy or rides cock
-					[] mating press
-					[] cowgirl
-				[] if player wins, can choose what to do
-					[] mating press
-					[] cowgirl
 	
 	[] Monica milking cow roleplay
 		[] She has old milk maid uniform
@@ -3724,10 +3959,6 @@ It'd be even better if this could be extended to potions as well, allowing us to
 		making it easier
 	 
 	
-	!!! Pix consent version !!!
-	Content for impregnation
-	
-	
 	The molesting of the submissive by the dominant through their clothing and the addition of jockstraps to give a male version of backless undergarments
 
 	Oh, and I'll also get the kink generation sorted out soon; at the moment it's almost completely random. ^^
@@ -3898,11 +4129,6 @@ The Arcane stat could have a multiplier on essence received alongside its other 
 	
 	
 	Combat & sex bugs
-	
-	
-	
-	Update chair sex, Pix, and Ralph
-	
 	
 	Pictures!
 	
@@ -8177,8 +8403,6 @@ When it should be an indication that I'm gaining testicles, and the three messag
 	
 	It seems that hitting enter after typing in a name on the save game screen glitches it out.  You need to click off of the text box.
 	
-	Pix multi-breast
-	
 	You cant get rid of harpies although i have not tested after the harpy quest is finished
 	
 	Buy all not showing up?
@@ -8425,8 +8649,6 @@ Also noticed the Stop partner self action option disappears.
 	
 	fondling balls is associated to oral fetish
 	
-	Pix scene behind non-con
-	
 	: I could add a 1-turn check so that if you've displaced that clothing, they prefer to displace on that same turn
 	: I should also add a 'forbid self-clothing interaction' action
 	
@@ -8462,8 +8684,6 @@ Also noticed the Stop partner self action option disappears.
 	Could there be a fun stat for how many undies or jewelry stolen?
 	
 	also a rape fetish for NPCs that makes them always resist
-	
-	Pix has multiple rows of breats despite the fact that I've turned off the multi-breast setting. Is this because she's a pregenerated character?
 	
 	It'd be interesting if perks like cum addict and nympho had a bonus if they were satisfied recently, and a penalty if you've gone a while without cum/sex
 	
@@ -8930,8 +9150,6 @@ Also noticed the Stop partner self action option disappears.
 		----------
 	
 		
-	Players with high enough strength/fitness and the dominant fetish should be able to flip the tables on Pix during her scene and dominate her
-	
 	Also, it'd be nice to be able to fuck Kate without her asking us to if we have high enough corruption
 		Requirements: Cock, corruption>50
 		Surprise penetration
