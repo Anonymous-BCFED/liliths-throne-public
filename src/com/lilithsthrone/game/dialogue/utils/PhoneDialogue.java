@@ -71,7 +71,6 @@ import com.lilithsthrone.game.sex.SexType;
 import com.lilithsthrone.game.sex.managers.universal.SMMasturbation;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotMasturbation;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.modding.PluginLoader;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.utils.Pathing;
 import com.lilithsthrone.utils.Units;

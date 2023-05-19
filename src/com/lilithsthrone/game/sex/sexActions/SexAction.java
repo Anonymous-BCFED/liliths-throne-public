@@ -380,7 +380,6 @@ public abstract class SexAction implements SexActionInterface {
 				}
 			}
 			
-			
 			List<CoverableArea> cummedOnList = null;
 			try { // Wrap in try/catch block as some sex actions may make calls to ongoing actions that aren't ongoing yet
 				cummedOnList = this.getAreasCummedOn(characterPerformingAction, characterTarget);

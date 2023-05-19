@@ -2656,7 +2656,7 @@ public class MainController implements Initializable {
 						addEventListener(documentRight, "FETISH_NPC_"+idModifier + f.getId(), "mouseleave", hideTooltipListener, false);
 	
 						TooltipInformationEventListener el = new TooltipInformationEventListener().setFetish(f, character);
-						addEventListener(documentRight, "FETISH_NPC_"+idModifier + Fetish.getIdFromFetish(f), "mouseenter", el, false);
+						addEventListener(documentRight, "FETISH_NPC_"+idModifier + f.getId(), "mouseenter", el, false);
 					}
 				}
 				for (AbstractCombatMove combatMove : character.getAvailableMoves()) {

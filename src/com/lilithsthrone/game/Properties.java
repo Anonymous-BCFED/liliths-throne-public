@@ -1598,7 +1598,7 @@ public class Properties {
 	}
 
 	public void resetFetishPreferences() {
-		fetishPreferencesMap = new HashMap<AbstractFetish, Integer>();
+		fetishPreferencesMap = new HashMap<>();
 		for(AbstractFetish f : Fetish.getAllFetishes()) {
 			fetishPreferencesMap.put(f, f.getFetishPreferenceDefault().getValue());
 		}
