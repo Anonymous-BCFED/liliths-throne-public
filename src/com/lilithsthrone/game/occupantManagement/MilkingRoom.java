@@ -432,7 +432,7 @@ public class MilkingRoom implements XMLSaving {
 		milkyMilknessSB.append("<div class='container-full-width' style='margin-bottom:2px; text-align:center;'><b style='color:"+PresetColour.EGG.toWebHexString()+";'>Amount</b>");
 		milkyMilknessSB.append("<div class='container-full-width' style='margin-top:2px; background:"+PresetColour.BACKGROUND_ALT.toWebHexString()+";'>");
 		milkyMilknessSB.append("<div class='container-full-width'>"+Units.fluid(MilkingRoom.INGESTION_AMOUNT)+"</div>");
-		milkyMilknessSB.append("<div class='container-full-width' style='content-align:center;width:15%'>");
+		milkyMilknessSB.append("<div class='container-full-width' style='content-align:center;text-align:center;width:15%;margin:0 auto;'>");
 		milkyMilknessSB.append("<div id='_PUMP_LESS' class='square-button big'>"
 									+ "<div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getDrinkSmall()+"</div></div>");
 		milkyMilknessSB.append("<div id='_PUMP_MORE' class='square-button big'>"

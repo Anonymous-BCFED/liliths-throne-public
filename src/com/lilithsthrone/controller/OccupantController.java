@@ -191,6 +191,21 @@ public class OccupantController {
 				new Util.Value<>(CoverableArea.MOUTH, SexAreaOrifice.MOUTH),
 				new Util.Value<>(CoverableArea.VAGINA, SexAreaOrifice.VAGINA),
 				new Util.Value<>(CoverableArea.ANUS, SexAreaOrifice.ANUS));
+
+		//MYSHIT
+		if (MainController.document.getElementById("_PUMP_LESS") != null) {
+			((EventTarget) MainController.document.getElementById("_PUMP_LESS")).addEventListener("click", e -> {
+				MilkingRoom.INGESTION_AMOUNT = Math.max(100, MilkingRoom.INGESTION_AMOUNT - 100);
+				Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+			}, false);
+		}
+		if (MainController.document.getElementById("_PUMP_MORE") != null) {
+			((EventTarget) MainController.document.getElementById("_PUMP_MORE")).addEventListener("click", e -> {
+				MilkingRoom.INGESTION_AMOUNT = Math.min(18927, MilkingRoom.INGESTION_AMOUNT + 100);
+				Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+			}, false);
+		}
+		//END MYSHIT
 		
 		for (Map.Entry<CoverableArea, SexAreaOrifice> area : areas.entrySet()) {
 			String id = idModifier+"_"+area.getKey()+"_"+fluid.hashCode();
