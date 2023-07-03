@@ -44,6 +44,7 @@ import com.lilithsthrone.world.Generation;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
 
+import com.sun.javafx.collections.ElementObservableListDecorator;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -98,6 +99,7 @@ public class Main extends Application {
 	 *  Or, from the command line java -Ddebug=true -jar LilithsThrone.jar
 	 */
 	public final static boolean DEBUG = Boolean.valueOf(System.getProperty("debug", "false"));
+	public final static boolean INFO_DUMP_MODE = Boolean.valueOf(System.getProperty("infodump", "false"));
 
 	public static Image WINDOW_IMAGE;
 	
@@ -130,6 +132,8 @@ public class Main extends Application {
 
 	// World generation:
 	public static Generation gen;
+	private static List<Runnable> commandQueue = new ArrayList<>();
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -513,6 +517,14 @@ public class Main extends Application {
 		Main.game.setContent(new Response("", "", OptionsDialogue.MENU));
 		
 		PluginLoader.getInstance().onMainStart();
+
+		// INFODUMP
+		if(!commandQueue.isEmpty()) {
+			for (Runnable task : commandQueue) {
+				task.run();
+			}
+		}
+		// END INFODUMP
 	}
 	
 	protected static void CheckForDataDirectory() {
@@ -648,6 +660,37 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		// INFODUMP
+		for(int i = 0;i<args.length;i++){
+			String strarg1;
+			switch(args[i]) {
+				case "--load":
+					strarg1 = args[i + 1];
+					commandQueue.add(() -> {
+						System.out.println("--load "+strarg1+": Calling loadGame()...");
+						loadGame(strarg1);
+						System.out.println("--load "+strarg1+": Done!");
+					});
+					break;
+				case "--load-and-save":
+					strarg1 = args[i + 1];
+					commandQueue.add(()-> {
+						System.out.println("--load-and-save "+strarg1+": Calling loadGame()...");
+						loadGame(strarg1);
+						System.out.println("--load-and-save "+strarg1+": Calling saveGame()...");
+						saveGame(strarg1, true, false);
+						System.out.println("--load-and-save "+strarg1+": Done!");
+					});
+					break;
+				case "--exit":
+					commandQueue.add(()-> {
+						System.out.println("--exit: Calling System.exit(0)...");
+						System.exit(0);
+					});
+					break;
+			}
+		}
+		// END INFODUMP
 		
 		// Create folders:
 		File dir = new File("data/");

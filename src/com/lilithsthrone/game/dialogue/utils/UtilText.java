@@ -809,6 +809,9 @@ public class UtilText {
 		}
 		
 		if(!randomStrings.isEmpty()) {
+			if(Main.INFO_DUMP_MODE){
+				return randomStrings.get(0);
+			}
 			return randomStrings.get(Util.random.nextInt(randomStrings.size()));
 		} else {
 			return "";

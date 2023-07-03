@@ -1788,6 +1788,9 @@ public class Util {
 		if(list.isEmpty()) {
 			return null;
 		}
+		if(Main.INFO_DUMP_MODE){
+			return list.get(0);
+		}
 		return list.get(Util.random.nextInt(list.size()));
 	}
 
@@ -1797,15 +1800,24 @@ public class Util {
 	}
 
 	public static <Any> Any randomItemFrom(Any[] array) {
+		if(Main.INFO_DUMP_MODE){
+			return array[0];
+		}
 		return array[Util.random.nextInt(array.length)];
 	}
 
 	public static int randomItemFrom(int[] array) {
+		if(Main.INFO_DUMP_MODE){
+			return array[0];
+		}
 		return array[Util.random.nextInt(array.length)];
 	}
 
 	@SafeVarargs
 	public static <Any> Any randomItemFromValues(Any... values) {
+		if(Main.INFO_DUMP_MODE){
+			return values[0];
+		}
 		return values[Util.random.nextInt(values.length)];
 	}
 
