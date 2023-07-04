@@ -804,14 +804,16 @@ public class UtilText {
 		
 		for(String s : strings) {
 			if(s!=null && !s.isEmpty()) {
+				// INFODUMP
+				if(Main.INFO_DUMP_MODE){
+					return s;
+				}
+				// END INFODUMP
 				randomStrings.add(s);
 			}
 		}
 		
 		if(!randomStrings.isEmpty()) {
-			if(Main.INFO_DUMP_MODE){
-				return randomStrings.get(0);
-			}
 			return randomStrings.get(Util.random.nextInt(randomStrings.size()));
 		} else {
 			return "";
@@ -889,6 +891,11 @@ public class UtilText {
 			return "<p><span style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>Dialogue for '"+tag+"' not found! (Make sure that the 'res' folder is in the same directory as the .jar or .exe.)</span></p>";
 
 		} else {
+			// INFODUMP
+			if(Main.INFO_DUMP_MODE){
+				return strings.get(0);
+			}
+			// END INFODUMP
 			return parse(new ArrayList<>(specialNPC), strings.get(Util.random.nextInt(strings.size())), true, parserTags);
 		}
 	}

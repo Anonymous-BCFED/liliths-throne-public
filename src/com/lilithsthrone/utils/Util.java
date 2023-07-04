@@ -554,6 +554,13 @@ public class Util {
 	}
 	
 	public static <T> T getRandomObjectFromWeightedMap(Map<T, Integer> map, Random rnd) {
+		// INFODUMP
+		if(Main.INFO_DUMP_MODE){
+			for (T e: map.keySet()) {
+				return e;
+			}
+		}
+		// END INFODUMP
 		checkWeightedMap(map, true);
 		int total = 0;
 		for(int i : map.values()) {
@@ -578,6 +585,13 @@ public class Util {
 	}
 	
 	public static <T> T getRandomObjectFromWeightedFloatMap(Map<T, Float> map) {
+		// INFODUMP
+		if(Main.INFO_DUMP_MODE){
+			for(T e : map.keySet()) {
+				return e;
+			}
+		}
+		// END INFODUMP
 		checkWeightedFloatMap(map, true);
 		float total = 0;
 		for(float f : map.values()) {
@@ -1788,9 +1802,11 @@ public class Util {
 		if(list.isEmpty()) {
 			return null;
 		}
+		// INFODUMP
 		if(Main.INFO_DUMP_MODE){
 			return list.get(0);
 		}
+		// END INFODUMP
 		return list.get(Util.random.nextInt(list.size()));
 	}
 
@@ -1800,24 +1816,30 @@ public class Util {
 	}
 
 	public static <Any> Any randomItemFrom(Any[] array) {
+		// INFODUMP
 		if(Main.INFO_DUMP_MODE){
 			return array[0];
 		}
+		// END INFODUMP
 		return array[Util.random.nextInt(array.length)];
 	}
 
 	public static int randomItemFrom(int[] array) {
+		// INFODUMP
 		if(Main.INFO_DUMP_MODE){
 			return array[0];
 		}
+		// END INFODUMP
 		return array[Util.random.nextInt(array.length)];
 	}
 
 	@SafeVarargs
 	public static <Any> Any randomItemFromValues(Any... values) {
+		// INFODUMP
 		if(Main.INFO_DUMP_MODE){
 			return values[0];
 		}
+		// END INFODUMP
 		return values[Util.random.nextInt(values.length)];
 	}
 

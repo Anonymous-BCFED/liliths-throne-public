@@ -661,6 +661,12 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		// INFODUMP
+		if(DEBUG) {
+			System.out.println("DEBUG on");
+		}
+		if(INFO_DUMP_MODE) {
+			System.out.println("INFO_DUMP_MODE on");
+		}
 		for(int i = 0;i<args.length;i++){
 			String strarg1;
 			switch(args[i]) {
