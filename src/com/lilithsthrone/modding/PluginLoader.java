@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -40,9 +41,6 @@ public final class PluginLoader {
 	private static String MOD_DIR = "res/mods";
 	private static String PLUGIN_DIR = "plugins";
 	private static String PLUGIN_META_RESOURCE = "PLUGIN_METADATA.xml";
-	/*
-	 * PLUGIN_METADATA.xml
-	 */
 
 	private static PluginLoader INSTANCE = null;
 
@@ -196,6 +194,7 @@ public final class PluginLoader {
 			try {
 				plugin = (BasePlugin) mainClass.getDeclaredConstructors()[0].newInstance();
 				plugin.metadata = meta;
+				plugin.log = Logger.getLogger(plugin.metadata.name);
 				this.addPlugin(plugin);
 			} catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|SecurityException e) {
 				// TODO Auto-generated catch block

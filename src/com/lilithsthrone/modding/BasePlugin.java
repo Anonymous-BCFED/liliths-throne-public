@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.effects.AbstractPerk;
 import com.lilithsthrone.game.character.effects.Perk;
@@ -25,6 +27,8 @@ public class BasePlugin {
 	 * Mod metadata (name, version, etc)
 	 */
 	public PluginMetadata metadata;
+
+	Logger log;
 
 	public HashSet<GameCharacter> providedGameCharacters = new HashSet<GameCharacter>();
 
