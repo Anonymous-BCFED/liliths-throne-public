@@ -21,6 +21,7 @@ import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.Properties;
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.CharacterImportSetting;
+import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.gender.Gender;
@@ -669,6 +670,7 @@ public class Main extends Application {
 		}
 		for(int i = 0;i<args.length;i++){
 			String strarg1;
+			String strarg2;
 			switch(args[i]) {
 				case "--load":
 					strarg1 = args[i + 1];
@@ -686,6 +688,39 @@ public class Main extends Application {
 						System.out.println("--load-and-save "+strarg1+": Calling saveGame()...");
 						saveGame(strarg1, true, false);
 						System.out.println("--load-and-save "+strarg1+": Done!");
+					});
+					break;
+				case "--export-character":
+					strarg1 = args[i + 1]; // NPC ID
+					commandQueue.add(()-> {
+						GameCharacter character=null;
+						switch(strarg1){
+							case "player":
+							case "pc":
+							case "me":
+								System.out.println("--export-character "+strarg1+": Selected player character");
+								character = Main.game.getPlayer();
+								break;
+							default:
+								try {
+									System.out.println("--export-character "+strarg1+": Selected NPC");
+									character = Main.game.getNPCById(strarg1);
+								} catch (Exception e) {
+									System.err.println(e);
+									System.exit(1);
+								}
+								break;
+						}
+						System.out.println("--export-character "+strarg1+": Calling Game.exportCharacter()...");
+						Game.exportCharacter(character);
+						System.out.println("--export-character "+strarg1+": Done!");
+					});
+					break;
+				case "--quick-save":
+					commandQueue.add(() -> {
+						System.out.println("--quick-save: Calling quickSaveGame()...");
+						quickSaveGame();
+						System.out.println("--quick-save: Done!");
 					});
 					break;
 				case "--exit":
