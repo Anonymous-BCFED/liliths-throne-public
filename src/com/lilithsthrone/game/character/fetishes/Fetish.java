@@ -2242,6 +2242,11 @@ public class Fetish {
 				return broString;
 			}
 		}
+
+		@Override
+		public FetishPreference getFetishPreferenceDefault() {
+			return FetishPreference.TWO_DISLIKE;
+		}
 	};
 
 	public static AbstractFetish FETISH_CROSS_DRESSER = new AbstractFetish(60,
@@ -2275,6 +2280,11 @@ public class Fetish {
 		@Override
 		public CorruptionLevel getAssociatedCorruptionLevel() {
 			return CorruptionLevel.ONE_VANILLA;
+		}
+
+		@Override
+		public FetishPreference getFetishPreferenceDefault() {
+			return FetishPreference.TWO_DISLIKE;
 		}
 	};
 
