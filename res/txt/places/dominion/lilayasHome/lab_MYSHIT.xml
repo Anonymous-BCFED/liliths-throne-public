@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dialogue>
+
+    <!-- LEVEL_EXTRACTION -->
+    <htmlContent tag="LEVEL_EXTRACTION">
+        <![CDATA[
+		<p>
+			Turning towards Lilaya, you get her attention before asking, [pc.speech(Is it ok if I extract some more levels?)]
+		</p>
+		<p>
+			[lilaya.speech(Of course!)] she responds. [lilaya.speech(Use as many vials as you'd like!)]
+		</p>
+		<p>
+			Reaching down to pull a few of the little glass containers out from their storage, you wonder which, and how many, of your levels to extract...
+		</p>
+	]]>
+    </htmlContent>
+
+
+    <!-- LEVEL_BOTTLED -->
+    <htmlContent tag="LEVEL_BOTTLED"><![CDATA[
+	<p>
+		You pull out the little cork from the top of one of the glass vials, and, closing your [pc.eyes], you concentrate on extracting the level. Suddenly, you feel a strange little tugging sensation, and, opening your [pc.eyes], you see a pink, swirling glow within the vial in your [pc.hand]. Pushing the cork stopper back in the top, you smile as you realise that you've successfully extracted a level; something that only a Lilin should be able to do!
+	</p>
+	]]>
+    </htmlContent>
+</dialogue>

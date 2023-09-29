@@ -2500,6 +2500,45 @@ public class ItemEffectType {
 		}
 	};
 
+//	MYSHIT
+	public static AbstractItemEffectType LEVELLERS_DRAUGHT = new AbstractItemEffectType(
+			null,
+			PresetColour.BASE_YELLOW_LIGHT) {
+		@Override
+		public List<String> getEffectsDescription(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target) {
+			List<String> effects = new ArrayList<>();
+
+			effects.add("[style.boldExcellent(Instantly recovers)] [style.boldSex(one level)]");
+
+			return effects;
+		}
+		@Override
+		public String itemEffectOverride(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
+			StringBuilder sb = new StringBuilder();
+
+
+			if(target.getLevel()<50) {
+//				sb.append(UtilText.parse(target,
+//						"<br/>[npc.Her] level [style.colourGood(increased)]!"));
+				float expProgressPercentage = target.getExperience() / target.getExperienceNeededForNextLevel();
+				sb.append(target.incrementExperience(target.getExperienceNeededForNextLevel()-target.getExperience(), false));
+				target.incrementExperience(Math.round(target.getExperienceNeededForNextLevel()*expProgressPercentage), false);
+//				sb.append(target.levelUp());
+
+			} else {
+				sb.append(UtilText.parse(target,
+						"<br/>[npc.Her] level [style.colourBad(did not increase)]!"));
+			}
+
+			return "<p style='text-align:center;'>"
+					+"[npc.Name] [npc.verb(let)] out a deep sigh as a cool, soothing sensation starts to wash over [npc.herHim]."
+					+ "<i>"
+					+ sb.toString()
+					+"</i>"
+					+ "</p>";
+		}
+	};
+
 	public static AbstractItemEffectType getRacialEffectType(AbstractRace race) {
 		return racialEffectTypes.get(race);
 	}

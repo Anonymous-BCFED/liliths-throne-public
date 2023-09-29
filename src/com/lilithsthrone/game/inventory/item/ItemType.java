@@ -2071,6 +2071,39 @@ public class ItemType {
 			return false;
 		}
 	};
+
+
+//MYSHIT
+	public static AbstractItemType LEVELLERS_DRAUGHT = new AbstractItemType(1_000,
+			"a bottle of",
+			false,
+			"leveller's draught",
+			"leveller's draught",
+			"An ornate bottle filled with a glowing, golden solution.",
+			"rejuvenation_potion",
+			PresetColour.CLOTHING_YELLOW,
+			PresetColour.CLOTHING_GOLD,
+			PresetColour.CLOTHING_BLUE_GREY,
+			Rarity.LEGENDARY,
+			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.LEVELLERS_DRAUGHT)),
+			Util.newArrayListOfValues(
+//					ItemTag.DOMINION_ALLEYWAY_SPAWN,
+//					ItemTag.SUBMISSION_TUNNEL_SPAWN,
+//					ItemTag.SOLD_BY_RALPH,
+					ItemTag.DRINK)) {
+		@Override
+		public String getUseName() {
+			return "drink";
+		}
+		@Override
+		public String getUseDescription(GameCharacter user, GameCharacter target) {
+			return getGenericUseDescription(user, target,
+					"Bringing the bottle up to your [pc.lips], you take the teat-like opening into your mouth, before greedily starting to suckle down the creamy liquid within.",
+					"Bringing the bottle up to [npc.namePos] [npc.lips], you push the teat-like opening into [npc.her] mouth, before forcing [npc.herHim] to suckle down the creamy liquid within.",
+					"[npc.Name] produces a bottle of 'Mother's Milk', and, taking the teat-like opening into [npc.her] mouth, [npc.she] greedily starts to suckle down the creamy liquid within.",
+					"[npc.Name] produces a bottle of 'Mother's Milk', and, pushing the teat-like opening into your mouth, [npc.she] forces you to suckle down the creamy liquid within.");
+		}
+	};
 	
 	// Standard non-racial transformatives:
 	

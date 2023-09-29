@@ -6213,7 +6213,7 @@ public abstract class GameCharacter implements XMLSaving {
 		return UtilText.parse(this, sb.toString());
 	}
 	
-	protected String levelUp() {
+	public String levelUp() {
 		StringBuilder sb = new StringBuilder();
 		float healthPercentage = getHealthPercentage();
 		float manaPercentage = getManaPercentage();
