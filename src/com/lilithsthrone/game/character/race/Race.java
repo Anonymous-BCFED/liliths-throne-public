@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.AbstractAttribute;
@@ -1453,6 +1454,22 @@ public class Race {
 	public static String getIdFromRace(AbstractRace race) {
 		return raceToIdMap.get(race);
 	}
+
+	// MYSHIT START
+	public static void addRace(String id, AbstractRace race) {
+		// TODO fix race.mod
+		allRaces.add(race);
+		raceToIdMap.put(race, id);
+		idToRaceMap.put(id, race);
+	}
+	public static void removeRace(String id) {
+		// TODO fix race.mod
+		var race = idToRaceMap.get(id);
+		allRaces.remove(race);
+		raceToIdMap.remove(race);
+		idToRaceMap.remove(id);
+	}
+	// MYSHIT END
 	
 	static {
 		allRaces = new ArrayList<>();
@@ -1519,6 +1536,8 @@ public class Race {
 				}
 			}
 		}
+
+		PluginLoader.getInstance().forEachPlugin(p -> p.onInitRaces());
 		
 		allRaces.sort((r1, r2) -> r1.getName(false).compareTo(r2.getName(false)));
 		
@@ -1540,8 +1559,6 @@ public class Race {
 				Attribute.allAttributes.add(racialAttribute);
 			}
 		}
-		
-		PluginLoader.getInstance().forEachPlugin(p -> p.onInitRaces());
 	}
 	
 	public static List<AbstractRace> getAllRaces() {

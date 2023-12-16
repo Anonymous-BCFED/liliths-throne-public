@@ -234,10 +234,17 @@ public final class PluginLoader {
 	// SIGNALLING
 	//////////////////////////////////////////////////
 
+	/**
+	 * Called after all plugins have loaded.
+	 */
 	private void onPluginsLoaded() {
 		plugins.forEach(p -> p.onPluginsLoaded());
 	}
 
+	/**
+	 * Called after all unique NPCs have been loaded.
+	 * @param addedNpcs
+	 */
 	public void onInitUniqueNPCs(List<Class<? extends NPC>> addedNpcs) {
 		plugins.forEach(p -> p.onInitUniqueNPCs(addedNpcs));
 	}
