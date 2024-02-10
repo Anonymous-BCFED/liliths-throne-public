@@ -39,6 +39,14 @@ import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.Weather;
 
+//MYSHIT
+import java.util.stream.Collectors;
+
+import com.lilithsthrone.game.inventory.enchanting.EnchantingUtils;
+import com.lilithsthrone.game.inventory.item.AbstractItem;
+
+//END MYSHIT
+
 /**
  * @since 0.2.10
  * @version 0.3.7.8
@@ -752,6 +760,27 @@ public class AlleywayAttackerDialogue {
 		public void applyPreParsingEffects() {
 			getMugger().setPlayerSurrenderCount(0);
 			getMugger().clearPetName(Main.game.getPlayer());
+
+			// MYSHIT
+			TransformativePotion effects = getMugger().generateTransformativePotion(Main.game.getPlayer());
+			if(effects!=null) {
+				AbstractItem potion = EnchantingUtils.craftItem(
+						Main.game.getItemGen().generateItem(effects.getItemType()),
+						effects.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
+				potion.setName("Mugger's Elixir");
+				getMugger().addItem(potion, false);
+			}
+			if(!Main.game.getPlayer().getNonElementalCompanions().isEmpty()) {
+				TransformativePotion effects2 = getMugger().generateTransformativePotion(Main.game.getPlayer().getMainCompanion());
+				if(effects2!=null) {
+					AbstractItem potion2 = EnchantingUtils.craftItem(
+							Main.game.getItemGen().generateItem(effects2.getItemType()),
+							effects2.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
+					potion2.setName("Mugger's Elixir");
+					getMugger().addItem(potion2, false);
+				}
+			}
+			//END MYSHIT
 		}
 		@Override
 		public String getDescription() {
