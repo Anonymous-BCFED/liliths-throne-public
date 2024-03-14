@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors; // MYSHIT
 
+//import com.lilithsthrone.game.inventory.enchanting.*; // MYSHIT
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -89,6 +91,7 @@ import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.game.inventory.enchanting.AbstractItemEffectType;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffectType;
+import com.lilithsthrone.game.inventory.enchanting.EnchantingUtils; // MYSHIT
 import com.lilithsthrone.game.inventory.enchanting.PossibleItemEffect;
 import com.lilithsthrone.game.inventory.enchanting.TFModifier;
 import com.lilithsthrone.game.inventory.enchanting.TFPotency;
@@ -1414,6 +1417,21 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		} else {
 			potion = null;
 			fetishPotion = null;
+		}
+	}
+
+	public void giveSelfCombatPotions(AbstractPotion potion, AbstractPotion companionPotion) {
+		if(potion!=null) {
+			AbstractItem bottle1 = EnchantingUtils.craftItem(Main.game.getItemGen().generateItem(potion.getItemType()), potion.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
+			//bottle1.setName("potion");
+			addItem(bottle1, false);
+		}
+		if (!Main.game.getPlayer().getNonElementalCompanions().isEmpty()) {
+			if(companionPotion!=null) {
+				AbstractItem bottle2 = EnchantingUtils.craftItem(Main.game.getItemGen().generateItem(companionPotion.getItemType()), companionPotion.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
+				//bottle2.setName("Potion");
+				addItem(bottle2, false);
+			}
 		}
 	}
 

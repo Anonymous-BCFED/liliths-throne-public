@@ -26,6 +26,7 @@ import com.lilithsthrone.game.dialogue.utils.BodyChanging;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.InventorySlot;
+import com.lilithsthrone.game.inventory.item.AbstractPotion; // MYSHIT
 import com.lilithsthrone.game.inventory.item.FetishPotion;
 import com.lilithsthrone.game.inventory.item.TransformativePotion;
 import com.lilithsthrone.game.occupantManagement.OccupancyUtil;
@@ -758,6 +759,10 @@ public class AlleywayDemonDialogue {
 		public void applyPreParsingEffects() {
 			getDemon().setPlayerSurrenderCount(0);
 			getDemon().clearPetName(Main.game.getPlayer());
+			// MYSHIT
+			AFTER_COMBAT_DEFEAT.applyPreParsingEffects();
+			getDemon().giveSelfCombatPotions(AFTER_COMBAT_DEFEAT.getPotion(), AFTER_COMBAT_DEFEAT.getCompanionPotion());
+			// END MYSHIT
 		}
 		@Override
 		public int getSecondsPassed() {
@@ -1129,6 +1134,8 @@ public class AlleywayDemonDialogue {
 				}
 			}
 		}
+		@Override public AbstractPotion getPotion() { return potion; } // MYSHIT
+		@Override public AbstractPotion getCompanionPotion() { return companionPotion; } // MYSHIT
 		@Override
 		public int getSecondsPassed() {
 			return 5*60;

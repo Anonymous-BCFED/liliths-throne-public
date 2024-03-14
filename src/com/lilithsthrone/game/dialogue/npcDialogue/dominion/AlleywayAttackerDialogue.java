@@ -27,6 +27,7 @@ import com.lilithsthrone.game.dialogue.utils.BodyChanging;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.InventorySlot;
+import com.lilithsthrone.game.inventory.item.AbstractPotion; // MYSHIT
 import com.lilithsthrone.game.inventory.item.FetishPotion;
 import com.lilithsthrone.game.inventory.item.TransformativePotion;
 import com.lilithsthrone.game.occupantManagement.OccupancyUtil;
@@ -762,23 +763,8 @@ public class AlleywayAttackerDialogue {
 			getMugger().clearPetName(Main.game.getPlayer());
 
 			// MYSHIT
-			TransformativePotion effects = getMugger().generateTransformativePotion(Main.game.getPlayer());
-			if(effects!=null) {
-				AbstractItem potion = EnchantingUtils.craftItem(
-						Main.game.getItemGen().generateItem(effects.getItemType()),
-						effects.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
-				potion.setName("Mugger's Elixir");
-				getMugger().addItem(potion, false);
-			}
-			if(!Main.game.getPlayer().getNonElementalCompanions().isEmpty()) {
-				TransformativePotion effects2 = getMugger().generateTransformativePotion(Main.game.getPlayer().getMainCompanion());
-				if(effects2!=null) {
-					AbstractItem potion2 = EnchantingUtils.craftItem(
-							Main.game.getItemGen().generateItem(effects2.getItemType()),
-							effects2.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
-					potion2.setName("Mugger's Elixir");
-					getMugger().addItem(potion2, false);
-				}
+			if(getMugger().isApplyingPostCombatTransformations()) {
+				getMugger().giveSelfCombatPotions(potion,companionPotion);
 			}
 			//END MYSHIT
 		}

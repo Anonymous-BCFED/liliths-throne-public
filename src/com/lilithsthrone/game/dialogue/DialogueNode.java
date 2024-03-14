@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.lilithsthrone.game.inventory.item.AbstractPotion; // MYSHIT
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.xmlParsing.Element;
@@ -846,4 +847,6 @@ public abstract class DialogueNode {
 			Main.game.getDialogueFlags().setFlag(DialogueFlagValue.coveringChangeListenersRequired, false);
 		}
 	}
+	public AbstractPotion getPotion() { return null; } // MYSHIT
+	public AbstractPotion getCompanionPotion() { return null; } // MYSHIT
 }

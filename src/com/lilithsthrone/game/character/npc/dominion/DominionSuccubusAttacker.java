@@ -236,26 +236,6 @@ public class DominionSuccubusAttacker extends NPC {
 	@Override
 	public Response endCombat(boolean applyEffects, boolean victory) {
 		if (victory) {
-			// MYSHIT
-			TransformativePotion effects = generateTransformativePotion(Main.game.getPlayer());
-			if(effects!=null) {
-				AbstractItem potion = EnchantingUtils.craftItem(
-						Main.game.getItemGen().generateItem(effects.getItemType()),
-						effects.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
-				potion.setName("Demon's Elixir");
-				addItem(potion, false);
-			}
-			if(!Main.game.getPlayer().getNonElementalCompanions().isEmpty()) {
-				TransformativePotion effects2 = generateTransformativePotion(Main.game.getPlayer().getMainCompanion());
-				if(effects2!=null) {
-					AbstractItem potion2 = EnchantingUtils.craftItem(
-							Main.game.getItemGen().generateItem(effects2.getItemType()),
-							effects2.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
-					potion2.setName("Demon's Elixir");
-					addItem(potion2, false);
-				}
-			}
-			// END MYSHIT
 			return new Response("", "", AlleywayDemonDialogue.AFTER_COMBAT_VICTORY);
 		} else {
 			return new Response ("", "", AlleywayDemonDialogue.AFTER_COMBAT_DEFEAT);

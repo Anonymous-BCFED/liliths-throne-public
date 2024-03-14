@@ -1297,6 +1297,7 @@ public class OccupantManagementDialogue {
 				"<div class='container-full-width inner' style='margin-bottom:0;"+(alternateBackground?"background:"+PresetColour.BACKGROUND_ALT.toWebHexString()+";'":"'")+"'>"
 						+ "<div style='width:20%; float:left; margin:0; padding:0;'>"
 							+ "<b style='color:"+slave.getFemininity().getColour().toWebHexString()+";'>"+slave.getName(true)+"</b><br/>"
+							+ "<span style='color:#ccc;font-family:monospace;'>"+slave.getSlaveID()+"</span><br/>"
 							+ "<span style='color:"+slave.getRace().getColour().toWebHexString()+";'>"
 								+Util.capitaliseSentence((showWinged?"winged ":"")+(slave.isFeminine()?slave.getSubspecies().getSingularFemaleName(slave.getBody()):slave.getSubspecies().getSingularMaleName(slave.getBody())))+"</span><br/>"
 							+ "<span style='color:"+slave.getFemininity().getColour().toWebHexString()+";'>"+Util.capitaliseSentence(slave.getGender().getName())+"</span>"

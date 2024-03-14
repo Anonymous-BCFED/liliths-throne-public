@@ -27,6 +27,7 @@ import com.lilithsthrone.game.dialogue.utils.BodyChanging;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.InventorySlot;
+import com.lilithsthrone.game.inventory.item.AbstractPotion; // MYSHIT
 import com.lilithsthrone.game.inventory.item.FetishPotion;
 import com.lilithsthrone.game.inventory.item.TransformativePotion;
 import com.lilithsthrone.game.occupantManagement.OccupancyUtil;
@@ -747,6 +748,10 @@ public class HarpyAttackerDialogue {
 		public void applyPreParsingEffects() {
 			getHarpy().setPlayerSurrenderCount(0);
 			getHarpy().clearPetName(Main.game.getPlayer());
+			// MYSHIT
+			AFTER_COMBAT_DEFEAT.applyPreParsingEffects();
+			getHarpy().giveSelfCombatPotions(AFTER_COMBAT_DEFEAT.getPotion(), AFTER_COMBAT_DEFEAT.getCompanionPotion());
+			// END MYSHIT
 		}
 		@Override
 		public String getDescription() {
@@ -1118,6 +1123,8 @@ public class HarpyAttackerDialogue {
 				}
 			}
 		}
+		@Override public AbstractPotion getPotion() { return potion; } // MYSHIT
+		@Override public AbstractPotion getCompanionPotion() { return companionPotion; } // MYSHIT
 		
 		@Override
 		public String getDescription() {

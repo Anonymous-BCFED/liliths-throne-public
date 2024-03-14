@@ -282,6 +282,7 @@ import com.lilithsthrone.rendering.Artwork;
 import com.lilithsthrone.rendering.CachedImage;
 import com.lilithsthrone.rendering.ImageCache;
 import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.utils.CryptoUtils; // MYSHIT
 import com.lilithsthrone.utils.NumberMap;
 import com.lilithsthrone.utils.Pathing;
 import com.lilithsthrone.utils.SizedStack;
@@ -3547,7 +3548,19 @@ public abstract class GameCharacter implements XMLSaving {
 
 	public void setId(String id) {
 		this.id = id;
+        this._slaveId=""; // MYSHIT
 	}
+
+    // MYSHIT
+    private String _slaveId=null;
+    public String getSlaveID() {
+        if(_slaveId==null || _slaveId.isEmpty()) {
+            _slaveId = CryptoUtils.CID2SID(this.id);
+        }
+        return _slaveId;
+    }
+    //END MYSHIT
+
 	/**
 	 * @return The String identifier for this character in the parsing engine. Will usually be null unless this character has been specifically assigned a parser target.
 	 */
