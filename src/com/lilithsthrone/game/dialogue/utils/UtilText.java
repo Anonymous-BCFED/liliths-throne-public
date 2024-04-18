@@ -536,7 +536,8 @@ public class UtilText {
 			}
 
 			if(includePersonalityEffects) {
-				if(target.getLipSize().isImpedesSpeech() || target.hasPersonalityTrait(PersonalityTrait.LISP)) {
+				if((Main.game.isLipLispEnabled() && target.getLipSize().isImpedesSpeech())
+						|| target.hasPersonalityTrait(PersonalityTrait.LISP)) {
 					modifiedSentence = Util.applyLisp(modifiedSentence);
 				}
 	
@@ -769,6 +770,13 @@ public class UtilText {
 	}
 	
 	public static String formatAsMoney(String money, String tag) {
+		if(!money.contains("[npc.")) { // DO not parse it out if this is a generic NPC's money
+			try {
+				int moneyInt = Integer.parseInt(UtilText.parse(money));
+				return formatAsMoney(moneyInt, tag, PresetColour.TEXT);
+			} catch(Exception ex) {
+			}
+		}
 		return formatAsMoney(money, tag, PresetColour.TEXT);
 	}
 	
@@ -6098,7 +6106,7 @@ public class UtilText {
 				BodyPartType.ASS){
 			@Override
 			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
-				return getSkinName(character.getTorsoType(), character);
+				return getSkinName(character.getAssType(), character);
 			}
 		});
 		
@@ -6113,7 +6121,7 @@ public class UtilText {
 				BodyPartType.ASS){
 			@Override
 			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
-				return getSkinNameWithDescriptor(character.getTorsoType(), character.getCovering(character.getTorsoType().getBodyCoveringType(character)), character);
+				return getSkinNameWithDescriptor(character.getAssType(), character.getCovering(character.getAssType().getBodyCoveringType(character)), character);
 			}
 		});
 		

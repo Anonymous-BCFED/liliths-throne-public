@@ -58,7 +58,11 @@ import com.lilithsthrone.game.character.attributes.AffectionLevel;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.ObedienceLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
+import com.lilithsthrone.game.character.body.FluidCum;
+import com.lilithsthrone.game.character.body.FluidGirlCum;
+import com.lilithsthrone.game.character.body.FluidMilk;
 import com.lilithsthrone.game.character.body.coverings.Covering;
+import com.lilithsthrone.game.character.body.types.FluidType;
 import com.lilithsthrone.game.character.body.valueEnums.GenitalArrangement;
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.PerkManager;
@@ -2067,6 +2071,26 @@ public class Game implements XMLSaving {
 					}
 				}
 				
+				// Reset doll fluids to their correct types:
+				if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.8")) {
+					for(NPC npc : Main.game.getAllNPCs()) {
+						if(npc.isDoll()) {
+							npc.getBody().getBreast().setMilk(new FluidMilk(FluidType.MILK_DOLL, false));
+							npc.getBody().getBreastCrotch().setMilk(new FluidMilk(FluidType.MILK_DOLL, true));
+							npc.getBody().getPenis().getTesticle().setCum(new FluidCum(FluidType.CUM_DOLL));
+							npc.getBody().getVagina().setGirlcum(new FluidGirlCum(FluidType.GIRL_CUM_DOLL));
+						}
+					}
+				}
+				
+				if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.9")) { // Remove excess consoles
+					int count = Main.game.getPlayer().getItemCount(ItemType.DOLL_CONSOLE);
+					for(int i=0; i<count-1; i++) {
+						Main.game.getPlayer().removeItemByType(ItemType.DOLL_CONSOLE);
+						Main.game.getPlayer().incrementMoney(MiscDialogue.deckCost);
+					}
+				}
+				
 				if(debug) {
 					System.out.println("New NPCs finished");
 					System.out.println("All finished");
@@ -2978,10 +3002,6 @@ public class Game implements XMLSaving {
 					} else {
 						npc.endPregnancy(true);
 					}
-					
-					if(npc instanceof Kate) {
-						Main.game.getDialogueFlags().values.remove(DialogueFlagValue.reactedToKatePregnancy);
-					}
 				}
 			}
 			
@@ -3624,7 +3644,7 @@ public class Game implements XMLSaving {
 		
 		int currentPosition = 0;
 		if(getCurrentDialogueNode()!=null) {
-			if(!Main.game.isInSex() || Main.sex.getTurn()>1) { // First turn of sex should always reset to top
+			if(!Main.game.isInSex() || Main.sex.getTurn()>1 || Main.game.currentDialogueNode!=Main.sex.SEX_DIALOGUE) { // First turn of sex should always reset to top
 				currentPosition =  (int) Main.mainController.getWebEngine().executeScript("document.getElementById('content-block').scrollTop");
 			}
 		}
@@ -5676,6 +5696,10 @@ public class Game implements XMLSaving {
 	
 	public boolean isScalyHairEnabled() {
 		return Main.getProperties().hasValue(PropertyValue.scalyHairContent);
+	}
+
+	public boolean isLipLispEnabled() {
+		return Main.getProperties().hasValue(PropertyValue.lipLispContent);
 	}
 	
 	public boolean isPubicHairEnabled() {
