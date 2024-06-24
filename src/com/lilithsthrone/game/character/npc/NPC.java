@@ -1442,13 +1442,13 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	public void giveSelfCombatPotions(AbstractPotion potion, AbstractPotion companionPotion) {
 		if(potion!=null) {
 			AbstractItem bottle1 = EnchantingUtils.craftItem(Main.game.getItemGen().generateItem(potion.getItemType()), potion.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
-			//bottle1.setName("potion");
+			bottle1.setName("potion");
 			addItem(bottle1, false);
 		}
 		if (!Main.game.getPlayer().getNonElementalCompanions().isEmpty()) {
 			if(companionPotion!=null) {
 				AbstractItem bottle2 = EnchantingUtils.craftItem(Main.game.getItemGen().generateItem(companionPotion.getItemType()), companionPotion.getEffects().stream().map(x -> x.getEffect()).collect(Collectors.toList()));
-				//bottle2.setName("Potion");
+				bottle2.setName("Potion");
 				addItem(bottle2, false);
 			}
 		}
